@@ -7,7 +7,11 @@ Specified inside http://wiki.ros.org/robot_mechanism_controllers/Reviews/Cartesi
  * Trajectory points defined by pose, twist and posture (joint configuration of joints defined in
    `posture_joint_names`, It is undecided where the `posture` should go. Into the trajectory points
    or as a separate field.)
- * Contains path and goal tolerances
+ * Contains path and goal tolerances in
+   * absolute position distance
+   * absolute rotation angular error
+   * absolute linear velocity
+   * absolute angular velocity
  * `queue` field which is not really clear how it should be used
 
 ## Features required from hardware / driver
@@ -15,7 +19,7 @@ Specified inside http://wiki.ros.org/robot_mechanism_controllers/Reviews/Cartesi
 
 ## Message definition
 
-```
+```yaml
 [CartesianTrajectoryGoal]
 CartesianTrajectory trajectory
   Header header  # A stamp of 0 means "execute now"
@@ -44,7 +48,7 @@ CartesianTolerance goal_tolerance  # Tolerance for when reaching the goal is con
 bool queue
 ```
 
-```
+```yaml
 [CartesianTrajectoryResult]
 int32 error_code  # 0 if successful
 CartesianTrajectoryPoint cartesian_state
@@ -54,7 +58,7 @@ Twist twist_error
 CartesianTolerance path_tolerance  # Current tolerance used for the path
 ```
 
-```
+```yaml
 [CartesianTrajectoryError]
 int32 SUCCESSFUL = 0
 int32 ROOT_TRANSFORM_FAILED
