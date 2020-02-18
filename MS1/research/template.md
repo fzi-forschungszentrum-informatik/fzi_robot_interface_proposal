@@ -12,7 +12,7 @@ Textual description? (Source, date, etc.)
 
 ## Message definition
 
-```
+```yaml
 [CartesianTrajectoryGoal]
 Header header  # A stamp of 0 means "execute now"
 string[] effector_names
