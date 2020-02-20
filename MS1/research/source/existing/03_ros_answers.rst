@@ -1,7 +1,7 @@
 ROS-Answers question by arennuit
 ================================
 
-https://answers.ros.org/question/196954/cartesian-trajectory-description-which-message-type/
+https://answers.ros.org/question/196954/cartesian-trajectory-description-which-message-type
 
 Feature list
 ------------
