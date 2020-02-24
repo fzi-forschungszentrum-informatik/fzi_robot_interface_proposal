@@ -11,5 +11,6 @@ Existing Cartesian Interfaces in ROS
    02c_CartesianTrajectories_API_Review_Banachowicz_2.rst
    03_ros_answers.rst
    04_pilz.rst
+   05_descartes.rst
    06_moveit.rst
    07_johnmichaloski.rst
