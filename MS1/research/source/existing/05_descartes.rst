@@ -28,14 +28,33 @@ Message definition
 .. code-block:: yaml
 
   [JointTrajectoryPt]
-  joint position
-  TolerancedJointValue
-  TimingConstraint
+  TolerancedJointValue joints           
+  Frame tool                            
+  Frame wobj                            
+  TimingConstraint timing
+
 
 
   [CartTrajectoryPt]
-  TolerancedJointValue
-  step size
+  Frame wobj_base                       
+  TolerancedFrame wobj_pt               
+  Frame tool_base                       
+  TolerancedFrame tool_pt
+  double pos_increment
+  double orient_increment
+  TimingConstraint timing
+
 
 
   [AxialSymmetricPt]
+  double x
+  double y
+  double z
+  double rx
+  double ry
+  double rz
+  double orient_increment
+  FreeAxis axis
+  TimingConstraint timing
+
+
