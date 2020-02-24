@@ -8,10 +8,12 @@ Feature list
 ------------
  * Trajectory points consist of pose and twist
  * Contains impedance for each trajectory point
+
    * target_frame_id
    * stiffness (6D)
    * damping (6D)
  * Contains path tolerance in
+
    * translation
    * orientation
    * twist
