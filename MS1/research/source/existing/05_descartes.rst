@@ -1,9 +1,9 @@
 Descartes Trajectory
 ====================
 
-http://wiki.ros.org/descartes_trajectory
-https://github.com/ros-industrial-consortium/descartes/tree/melodic-devel/descartes_trajectory/include/descartes_trajectory
-https://github.com/ros-industrial/rep/blob/master/rep-I0003.rst
+* http://wiki.ros.org/descartes_trajectory
+* https://github.com/ros-industrial-consortium/descartes/tree/melodic-devel/descartes_trajectory/include/descartes_trajectory
+* https://github.com/ros-industrial/rep/blob/master/rep-I0003.rst
 
 
 Feature list
