@@ -1,3 +1,5 @@
+.. _WillowGarage:
+
 Willow Garage (2010)
 ====================
 Part of http://wiki.ros.org/trajectory_msgs/Reviews/Cartesian%20Trajectories_API_Review_2013_06_05

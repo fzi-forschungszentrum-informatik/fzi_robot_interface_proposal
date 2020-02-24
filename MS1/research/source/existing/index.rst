@@ -12,3 +12,4 @@ Existing Cartesian Interfaces in ROS
    03_ros_answers.rst
    04_pilz.rst
    06_moveit.rst
+   07_johnmichaloski.rst
