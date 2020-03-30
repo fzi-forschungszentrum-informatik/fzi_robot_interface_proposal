@@ -6,7 +6,9 @@ Cartesian Interface in ROS
    :maxdepth: 2
    :caption: Contents
 
+   introduction/index.rst
    existing/index.rst
+   proposal/index.rst
 
 
 
