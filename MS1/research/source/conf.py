@@ -45,7 +45,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Cartesian Interface in ROS'
-copyright = u'2020, Lea Steffen, Stefan Scherzinger, Felix Exner'
+copyright = u'2020, FZI Forschungszentrum Informatik'
 author = u'Lea Steffen, Stefan Scherzinger, Felix Exner'
 
 # The version info for the project you're documenting, acts as replacement for
