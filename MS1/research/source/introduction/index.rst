@@ -28,10 +28,13 @@ Requirements
 The following requirements are defined for the developed interface
 
 Similar to control_msgs/FollowJointTrajectory.action
-  The interface should be similar in use to the standardized joint trajectory interface.
+  The interface should be similar in use to the standardized joint trajectory interface. Therefore,
+  not only a trajectory representation shall be developed, but also an action interface around it.
+
 Include posture definitions
   When defining Cartesian poses there might be ambiguities in joint space for that pose. There
   should be a methodology included that helps resolving these ambiguities.
+
 Composable structure
   The action should be composed of multiple message types. This way, it could be easily extended
   such as adding IO commands to the trajectory. Example:
@@ -39,8 +42,8 @@ Composable structure
   .. code-block:: yaml
 
     #Trajectory
-    TrajectoryPoints[] points
-    IOCommands[] io_commands
+    TrajectoryPoint[] points
+    IOCommand[] io_commands
 
 Transparent error codes
   The action result should cover additional cases relevant only for Cartesian executions such as an
