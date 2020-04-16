@@ -15,12 +15,16 @@ Robots robotic arms. Expected outcome of this project is to provide a Cartesian 
 
 Contribution
 ------------
-TODO: Write a better text for this section. The text below is only to get the point of this
-section...
+.. todo::
+   Write a better text for this section. The text below is only to get the point of this section...
 
 This document is meant to be a community effort. We would like to generate an interface suitable for
-as many people, as possible. Therefore, any input is welcome. This project is hosted at <TODO: HOST
-THIS SOMEWHERE>. Please get in touch with us and enter the discussion.
+as many people, as possible. Therefore, any input is welcome. This project is hosted at
+
+.. todo::
+   host this somewhere
+
+Please get in touch with us and enter the discussion.
 
 Requirements
 ------------
