@@ -2,6 +2,7 @@ Fanuc
 =====
 * Description:
 * Graphical programming interface:
+* Vendor specific programming language:
 * Version of the user manual:
 * Link to manual:
 * etc ...

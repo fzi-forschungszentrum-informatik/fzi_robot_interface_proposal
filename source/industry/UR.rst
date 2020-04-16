@@ -3,6 +3,8 @@ Universal Robots (UR)
 * Description:
 * Graphical programming interface: 
    * PolyScope
+* Vendor specific programming language:
+   * URscript
 * Version of the user manual:
    * UR5e: 5.0.2
    * UR10e: 5.0.2

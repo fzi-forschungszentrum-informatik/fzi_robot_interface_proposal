@@ -2,9 +2,13 @@ KUKA
 ====
 * Description:
 * Graphical programming interface:
+   * KUKA smartHMI (smart Human-Machine Interface)
+* Vendor specific programming language:
+   * KRL (KUKA Robot Language)
 * Version of the user manual:
 * Link to manual:
-* etc ...
+   * http://cncmanual.com/kuka-robotics/
+
 
 Trajectory composition
 ----------------------
@@ -28,4 +32,6 @@ Features required from hardware
 -------------------------------
 * Applicable to which robots of the vendor?
 * Are there requirements that other vendors' robots might not meet?
+
+
 
