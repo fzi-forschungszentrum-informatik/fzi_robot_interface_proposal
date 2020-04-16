@@ -2,6 +2,7 @@ Robot vendor
 ============
 * Textual description
 * Name of vendor's programming environment
+* Vendor specific programming language
 * Version of the user manual
 * Source (link)
 * etc ...
@@ -17,9 +18,14 @@ Explain parameters if necessary.
 * Point 2 Point
 * ...
 
+Waypoint representation
+-----------------------
+How are Cartesian points specified? (e.g. x,y,z, roll pitch, yaw vs quaternions)
+
 Trajectory parameterization and execution
 -----------------------------------------
 Describe if and how the following aspects are handled:
+
 * Specification of velocity
 * specification of acceleration
 * Blending
