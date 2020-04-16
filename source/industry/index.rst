@@ -1,5 +1,5 @@
 Vendor interfaces for Cartesian motions
-====================================
+=======================================
 
 
 .. toctree::
