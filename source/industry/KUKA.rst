@@ -1,7 +1,7 @@
 KUKA
 ====
-* Description:
-* Graphical programming interface:
+* Textual description
+* Name of vendor's programming environment:
    * KUKA smartHMI (smart Human-Machine Interface)
 * Vendor specific programming language:
    * KRL (KUKA Robot Language)
@@ -16,7 +16,14 @@ List of different motion primitives that users can use to compose/program
 Cartesian trajectories (referring to the manual).
 Explain parameters if necessary.
 
+* Linear
+* Circular
+* Point 2 Point
 * ...
+
+Waypoint representation
+-----------------------
+How are Cartesian points specified? (e.g. x,y,z, roll pitch, yaw vs quaternions)
 
 Trajectory parameterization and execution
 -----------------------------------------
@@ -32,6 +39,5 @@ Features required from hardware
 -------------------------------
 * Applicable to which robots of the vendor?
 * Are there requirements that other vendors' robots might not meet?
-
 
 
