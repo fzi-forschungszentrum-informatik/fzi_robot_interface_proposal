@@ -17,6 +17,7 @@ Explain parameters if necessary.
 Trajectory parameterization and execution
 -----------------------------------------
 Describe if and how the following aspects are handled:
+
 * Specification of velocity
 * specification of acceleration
 * Blending
