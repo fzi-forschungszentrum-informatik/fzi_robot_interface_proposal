@@ -20,8 +20,8 @@ plain text.
 
   [CartesianTrajectoryGoal]
   string reference_frame # could also come through header
-    CartesianTrajectoryPoint[] points
-      duration time_from_start
-      Pose pose
-      Twist twist
-      Twist acceleration
+  CartesianTrajectoryPoint[] points
+    duration time_from_start
+    Pose pose
+    Twist twist
+    Twist acceleration
