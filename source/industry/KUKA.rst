@@ -18,9 +18,7 @@ KUKA
 
 Trajectory composition
 ----------------------
-List of different motion primitives that users can use to compose/program
-Cartesian trajectories (see `manual_slides`_ p. 23-32).
-Explain parameters if necessary.
+Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23-32).:
 
 * Linear
    * straight line from the current position to target position
@@ -61,7 +59,69 @@ Explain parameters if necessary.
 
 Waypoint representation
 -----------------------
-How are Cartesian points specified? (e.g. x,y,z, roll pitch, yaw vs quaternions)
+* Linear
+
+	.. code-block:: yaml
+
+	  [LIN]
+	  X 1000.00
+	  Y 0.00
+	  Z 1000.00
+	  A 90.00
+	  B 0.00
+	  C 90.00
+
+* Circular
+
+	.. code-block:: yaml
+
+	  [CIRC]
+	  P1[] 
+	    X 1000.00
+	    Y 1.00
+	    Z 1000.00
+	    A 90.00
+	    B 0.00
+	    C 90.00
+	  P2[] 
+	    X 1000.00
+	    Y -1.00
+	    Z 1000.00
+	    A 90.00
+	    B 0.00
+	    C 90.00
+	  CA 180
+	    
+
+* Point 2 Point
+
+	.. code-block:: yaml
+
+	  [PTP]
+	  POS [] 
+	    X 1000.00
+	    Y 0.00
+	    Z 1000.00
+	    A 90.00
+	    B 0.00
+	    C 90.00
+	    S 6
+	    T 50
+    
+	  
+	.. code-block:: yaml
+
+	  [PTP]
+	  AXIS [] 
+	    A1 0
+	    A2 -90
+	    A3 90
+	    A4 90
+	    A5 0
+	    A6 -180
+
+
+
 
 Trajectory parameterization and execution
 -----------------------------------------
