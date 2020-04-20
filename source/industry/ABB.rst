@@ -1,30 +1,78 @@
 ABB
 ===
-* Description:
-* Graphical programming interface:
-* Version of the user manual:
-* Link to manual:
-* etc ...
+* Description: Cartesian trajectories for ABB robots (IRC5 controllers)
+* Graphical programming interface: FlexPendant, RobotStudio
+* Vendor specific programming language: RAPID
+* Enhancements for FlexPendant: FlexPendant SDK, Microsoft CE + Visual Studio
+* Version of the user manual: Technical reference manual (3HAC 16581-1)
+* Link to manual: https://library.e.abb.com/public/688894b98123f87bc1257cc50044e809/Technical%20reference%20manual_RAPID_3HAC16581-1_revJ_en.pdf
 
 Trajectory composition
 ----------------------
-List of different motion primitives that users can use to compose/program
-Cartesian trajectories (referring to the manual).
-Explain parameters if necessary.
+Programming is done with move instructions (motion types) that move the robot
+to specified targets.
 
-* ...
+* **MoveL**: Move linearly to a specified target. Possible arguments: target point, speed, coordinate system, duration until point (replaces speed), and others
+
+* **MoveC**: Build circular, open motion arcs, using a via-point and end point. Possible arguments: point on circle, target point, same as **MoveL**
+
+* There doesn't seem to be a spline interpolation
+
+Waypoint representation
+-----------------------
+Individually taught points (type **robtarget**) have the following field representation:
+
+.. code-block:: yaml
+
+  trans
+  rot
+  robconf
+  extax
+
+Individual fields
+~~~~~~~~~~~~~~~
+* **trans**: x, y, z (position of tcp)
+* **rot**: q1, q2, q3, q4 (orientation in quaternion notation)
+* **robconf**: cf1, cf4, cf6, cfx (axis configuration of the robot for possibly ambiguous axes)
+* **extax**: [eax_a, eax_b, eax_c, eax_d, eax_e, eax_f] (list of up to six external hardware axes)
+
+Different coordinate systems for point representations are possible, such as
+world or various object coordinate systems.
+
 
 Trajectory parameterization and execution
 -----------------------------------------
-Describe if and how the following aspects are handled:
 * Specification of velocity
-* specification of acceleration
+   - In form of a speed argument to move instructions during teaching of fly-by points. The
+     speed is valid until the next point
+   - Path segment specific with **VelSet** (overrides global velocity settings
+     until reset). Can be either specified as percentage of the current global
+     velocity or can be set to become the new max velocity.
+   - Global adjustments with **motsetdata**, affects all points
+
+* Specification of acceleration
+   - path segment specific accelerations with **AccSet** (overrides global
+     acceleration until reset). Provokes slower acceleration and deceleration
+     (percentage) of the global settings.
+   - Global adjustments with **motsetdata**, affects all points. This also includes
+     adjustment of ramping accelerations etc.
+
 * Blending
-* Parallel IO operations
-* Online (real-time) trajectory modifications
+   - Taught positions can either be fly-by points, or stop points
+   - Corner paths are automatically generated for **MoveL** and fly-by points
+   - Handled with zone data to realize corner paths (parabolas)
+   - Zones can be parameterized, allowing to independently start tool re-orientation and TCP corner paths
+
+* Parallel IO operations:
+   - **MoveLDO**: Move linearly and trigger an I/O operation at the target's middle corner path
+   - **MoveCDO**: Move in a circle and trigger an I/O operation at the target's middle corner path
+
+* Online (real-time) trajectory modifications:
+   - Offsets to paths can be realized with **CorrWrite** and special correction
+     generators. No information on real-time capability found.
 
 Features required from hardware
 -------------------------------
-* Applicable to which robots of the vendor?
-* Are there requirements that other vendors' robots might not meet?
+* Applicable to robots with the IRC5 controller
+* Cartesian position and velocity control interfaces on the robots.
 
