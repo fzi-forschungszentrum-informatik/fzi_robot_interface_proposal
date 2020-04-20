@@ -3,16 +3,19 @@ KUKA
 
 .. _manual_collection: http://cncmanual.com/kuka-robotics/
 .. _manual_slides: http://media.ee.ntu.edu.tw/personal/pcwu/tutorials/kuka_user_manual.pdf
+.. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
 
-* Textual description
-* Name of vendor's programming environment:
-   * KUKA smartHMI (smart Human-Machine Interface)
-* Vendor specific programming language:
-   * KRL (KUKA Robot Language)
+* Description: Cartesian trajectories for the Yaskawa Motoman robots
+* Vendor specifics 
+   * Teach pendant: “KCP” (KUKA Control Panel) or smartPAD
+   * Software: KUKA System Software (KSS)
+   * Programming environment / user interface: KUKA smartHMI (smart Human-Machine Interface)
+   * Programming language: KRL (KUKA Robot Language)
 * Version of the user manual:
-* Link to manual:
+* Link to manuals:
    * `manual_collection`_
    * `manual_slides`_
+   * `manual_advanced`_
 
 
 
@@ -59,7 +62,8 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 
 Waypoint representation
 -----------------------
-* Linear
+* Motion Types
+   * Linear
 
 	.. code-block:: yaml
 
@@ -71,7 +75,7 @@ Waypoint representation
 	  B 0.00
 	  C 90.00
 
-* Circular
+   * Circular
 
 	.. code-block:: yaml
 
@@ -93,7 +97,7 @@ Waypoint representation
 	  CA 180
 	    
 
-* Point 2 Point
+   * Point 2 Point
 
 	.. code-block:: yaml
 
@@ -120,8 +124,15 @@ Waypoint representation
 	    A5 0
 	    A6 -180
 
+* Angles of rotation of the robot coordinate systems
 
-
+=====  =============
+Angle  rotation axis 
+=====  =============
+A  	Z  
+B	Y  
+C	X      
+=====  =============
 
 Trajectory parameterization and execution
 -----------------------------------------
@@ -135,7 +146,7 @@ Describe if and how the following aspects are handled:
 
 Features required from hardware
 -------------------------------
-* Applicable to which robots of the vendor?
+* Applicable to KR C2 / KR C3
 * Are there requirements that other vendors' robots might not meet?
 
 
