@@ -1,11 +1,37 @@
 Conclusion / Proposed Interface
 ===============================
+.. @Felix:
+   I would just call this Proposed Interface
 
-This section wraps up section :ref:`Existing` and contains out proposed interface derived from the information collected in the previous
-sections.
+.. I personally would write a little more introduction.
+   I think it helps readers to get into the mood. :)
+Cartesian trajectory definitions have long been a complicated topic in ROS.
+The investigated definitions showed that quite some differences exist about
+generality vs expressiveness vs ease of use, not to mention the somewhat
+`orthogonal` industry way of doing things.  In fact, most people will agree
+that it's probably impossible to cover every detail, to meet all requirements
+and meet all needs of all possible users of such an interface.
+Nevertheless, with this document having a lot of information in one place, we
+believe that there are sufficient similarities to start a new trial.
+
+Here's our proposal for Cartesian Trajectory Definitions.
+We present the new message types step by step and explain our design decisions,
+basing them on conclusions from the previous sections :ref:`Existing`.
+
+
+.. This section wraps up section :ref:`Existing` and contains our proposed interface derived from the information collected in the previous sections.
+
+.. @Felix:
+   Can you forward reference the TLDR; section here?
+   So that readers can easily jup to the end.
+   Alternatively, it maybe makes sense to begin here with the final definition.
+
 
 Conclusion
 ----------
+.. @Felix:
+   I would drop this heading.
+   Conclusion and own proposal is too much intertwisted.
 
 CartesianTrajectoryPoint
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -14,7 +40,7 @@ One common thing in all existing proposal is to have a Cartesian trajectory poin
 would be fairly similar to the `trajectory_msgs/JointTrajectoryPoint
 <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_ message. As
 the joint version contains joint efforts, we propose to also include Cartesian wrenches to the
-Cartesian point definition, althogh this is only proposed in one of the existing interfaces.
+Cartesian point definition, although this is only proposed in one of the existing interfaces.
 
 
 .. code-block:: yaml
@@ -35,6 +61,17 @@ contain this into a parent message containing this.
 
    float64[] joint_values
 
+.. @Felix:
+   I would omit this extra message type.
+   I think it does not add too much information and could easily be replaced by
+   the following CartesianTrajectory definition:
+
+.. Header header
+   CartesianTrajectoryPoint[] points
+   string tcp_frame
+   string[] posture_joint_names
+   float64[] posture_joint_values
+
 Postures - to solve joint configuration ambiguities - are defined in a separate message type to
 decouple it from the geometric waypoint definition. When assembling those Cartesian points to a
 trajectory additional posture information should be given.
@@ -49,11 +86,13 @@ contain a lot of unused fields. This on the other hand raises the requirement to
 names on a higher level as mentioned above.
 
 It is still open how posture information should be treated. Here, multiple options seem valid at
-first glance
-* Make the field optional. If left empty, there is no preferre posture information.
-* Allow partial postures. It might be beneficial to allow partial posture definitions such as a
-shoulder lift joint or elbow joint value only. However, allowing this will require to have the
-joint names available at this stage, as well.
+first glance:
+
+* Make the field optional. If left empty, there is no preferred posture information.
+* Allow partial postures. It might be beneficial to allow partial posture
+  definitions such as a shoulder lift joint or elbow joint value only. However,
+  allowing this will require to have the joint names available at this stage,
+  as well.
 
 CartesianTrajectory
 ~~~~~~~~~~~~~~~~~~~
@@ -71,18 +110,19 @@ trajectory object consisting of multiple trajectory points.
    string[] posture_joint_names
    CartesianPosture[] postures
 
-At this stage we introduce stamping information for all the trajectory points and a ``frame_id``
-corresponding the the link that we want to follow the poses defined inside the trajectory. Some of
-the existing propsals use a ``geometry_msgs/Pose`` field instead but we think that reusing existing
-frame names makes this interface more versatile so users won't have to lookup the transform to their
-TCP by hand when executing such a trajectory.
+At this stage we include a time stamp through the ``header`` message.
+Note that ``header`` also includes a ``frame_id``, which is the assumed reference frame for the data given in ``points``.
+The link that shall follow the trajectory is specified with ``tcp_frame``.
+Some of
+the existing proposals use a ``geometry_msgs/Pose`` field to express the points' reference frame, but we think that using names as identifiers makes this interface more versatile, because it delegates possible lookups to where this information is easier available.
 
 CartesianError / CartesianTolerance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the investigated interfaces tolerances are often proposed as scalar values for each of [position,
-orientation, velocity, angular velocity]. We proppose to allow path constraints in each positional
-dimension as well as each angular dimension (rotation about each of the end effector's axes):
+orientation, velocity, angular velocity]. We propose to allow full motion
+constraints on position, velocity and acceleration level, which are specified
+both for the end effector's linear and angular axes:
 
 .. code-block:: yaml
    :caption: CartesianError.msg
@@ -91,6 +131,13 @@ dimension as well as each angular dimension (rotation about each of the end effe
    geometry_msgs/Vector3 orientation
    geometry_mgs/Twist velocity
    geometry_mgs/Accel acceleration
+
+.. @Felix:
+   I guess velocity and acceleration refer to maximal allowed values?
+   I mean position and orientation are both tolerable offsets.
+   But what is a velocity/acceleration offset? To what?
+
+.. When using this message as goal_tolerance, what do velocity and acceleration refer to?
 
 CartesianTrajectoryAction
 ~~~~~~~~~~~~~~~~~~~~~~~~~
