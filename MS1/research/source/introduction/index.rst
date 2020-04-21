@@ -13,18 +13,25 @@ Robots robotic arms. Expected outcome of this project is to provide a Cartesian 
 `control_msgs/FollowJointTrajectory.action
 <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 
+Contents of this document
+-------------------------
+
+This document will start with a summary of existing suggestions for Cartesian interfaces known to
+us. A conclusion chapter will form a proposed interface taking those interfaces into account.
+
+Additional to that we will have a look at native robot interfaces to get an overview how industrial
+vendors interface their robots.
+
 Contribution
 ------------
-.. todo::
-   Write a better text for this section. The text below is only to get the point of this section...
 
-This document is meant to be a community effort. We would like to generate an interface suitable for
-as many people, as possible. Therefore, any input is welcome. This project is hosted at
+We would like to generate an interface suitable for
+as many people, as possible. Therefore, any input is welcome. This project is hosted at `FZI's
+github orgnanization <https://github.com/fzi-forschungszentrum-informatik/fzi_robot_interface_proposal>`_
 
-.. todo::
-   host this somewhere
 
-Please get in touch with us and enter the discussion.
+Please get in touch with us and enter the discussion. Either open a new issue if you want to commit
+on something or even write a Pull Request with a suggestion.
 
 Requirements
 ------------
