@@ -8,9 +8,12 @@ KUKA
 * Description: Cartesian trajectories for the Yaskawa Motoman robots
 * Vendor specifics 
    * Teach pendant: “KCP” (KUKA Control Panel) or smartPAD
+   * Programming / simulation software: OrangeEdit editor / KUKA simulator Sim Pro
    * Software: KUKA System Software (KSS)
-   * Programming environment / user interface: KUKA smartHMI (smart Human-Machine Interface)
-   * Programming language: KRL (KUKA Robot Language)
+   * User interface: KUKA smartHMI (smart Human-Machine Interface)
+   * Programming language: 
+      * KRL (KUKA Robot Language)
+      * exception is LBR iiwa (programmed in Java)
 * Version of the user manual:
 * Link to manuals:
    * `manual_collection`_
@@ -147,6 +150,7 @@ Describe if and how the following aspects are handled:
 Features required from hardware
 -------------------------------
 * Applicable to KR C2 / KR C3
+* KRC4 controller is a Windows based computer and the teach pendant is a remote desktop of that computer
 * Are there requirements that other vendors' robots might not meet?
 
 

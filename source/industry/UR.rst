@@ -1,10 +1,12 @@
 Universal Robots (UR)
 =====================
 * Textual description
-* Name of vendor's programming environment 
-   * PolyScope
-* Vendor specific programming language:
-   * URscript
+* Vendor specifics 
+   * Teach pendant: 
+   * Programming / simulation software:
+   * User interface: 			PolyScope
+   * Programming language: 		UR Script language (based on Python)
+
 * Version of the user manual:
    * UR5e: 5.0.2
    * UR10e: 5.0.2
@@ -48,5 +50,7 @@ Features required from hardware
 -------------------------------
 * Applicable to which robots of the vendor?
 * Are there requirements that other vendors' robots might not meet?
+
+
 
 
