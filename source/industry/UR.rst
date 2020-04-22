@@ -1,11 +1,10 @@
 Universal Robots (UR)
 =====================
-* Textual description
+* Description: Cartesian trajectories for Universal Robots (CB3 / e-Series)
 * Vendor specifics 
-   * Teach pendant: 
-   * Programming / simulation software:
-   * User interface: 			PolyScope
-   * Programming language: 		UR Script language (based on Python)
+   * Programming / simulation software:     UR+ / URcaps
+   * User interface: 			            PolyScope
+   * Programming language: 		            UR Script language (based on Python)
 
 * Version of the user manual:
    * UR5e: 5.0.2
@@ -33,11 +32,20 @@ Programming is done with move instructions (movement types) that move the robot 
 
 Waypoint representation
 -----------------------
-How are Cartesian points specified? (e.g. x,y,z, roll pitch, yaw vs quaternions)
+Individually taught points have the following representation:
+
+.. code-block:: yaml
+
+  X
+  Y
+  Z
+  Rx (roll)
+  Ry (pitch)
+  Rz (yaw)
+  
 
 Trajectory parameterization and execution
 -----------------------------------------
-Describe if and how the following aspects are handled:
 
 * Specification of velocity
 
@@ -56,7 +64,7 @@ Describe if and how the following aspects are handled:
      ===========  ===========================     ===========
 
    
-* specification of acceleration
+* Specification of acceleration
 
     * The acceleration of the robot's motions is defined in form of an argument by the move command. Depending on the chosen movement type either the joints' or TCP's acceleration is definable.
 
@@ -65,28 +73,52 @@ Describe if and how the following aspects are handled:
 
       
 * Blending
-* Parallel IO operations
-* Online (real-time) trajectory modifications
 
+    * Circular blending is part of **MoveP**. The blend radius' size is by default a shared value between all the waypoints. A smaller blend radius leads to sharper and a biger radius to smoother paths.
+    * Belnding can also be done by defining a blend radius for way points. In this case the trajectory blends around the waypoint, allowing the robot arm not to stop at the point.
+
+
+* Parallel IO operations
+    * can be triggered at certain points in the robot’s path
+
+ 
+* Online (real-time) trajectory modifications
+    * realized by Real-Time Data Exchange (RTDE) interface
+
+    
 Features required from hardware
 -------------------------------
-* Applicable to which robots of the vendor?
+* Applicable to robots 
+    
+    * CB3 (UR3, UR5, UR10)
+    * e-Series (UR3e, UR5e, UR10e)
+    
 * Are there requirements that other vendors' robots might not meet?
+    
+    * Cartesian position and velocity control interfaces on the robots.
+    * Built-in, tool-centric force/torque sensor (e-Series)
 
 
 
 
-The Joint Limits subtab consists of joint speed and joint position limits. The
-joint speed limits define the maximum angular velocity of individual joints and
-serve to further limit the speed of the robot arm. The joint position limits define
-the allowed position range of individual joints (in joint space). For further
-details, see 15.10
+    
+    
+    
 
-Maximum Speed This option defines the maximum angular velocity for each
-joint. This is done by tapping the corresponding text field and entering the new
-value. The highest accepted value is listed in the column titled Maximum. None of
-the values can be set below the tolerance value.
 
-range for angular velocity: -363 - 363 im normal mode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
