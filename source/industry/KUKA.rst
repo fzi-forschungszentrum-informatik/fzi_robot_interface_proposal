@@ -132,9 +132,9 @@ Waypoint representation
 =====  =============
 Angle  rotation axis 
 =====  =============
-A  	Z  
-B	Y  
-C	X      
+A  	   Z  
+B	   Y  
+C	   X      
 =====  =============
 
 Trajectory parameterization and execution
@@ -142,6 +142,17 @@ Trajectory parameterization and execution
 Describe if and how the following aspects are handled:
 
 * Specification of velocity
+    * KUKA operation mode influence velocity
+    
+    ====   =======================   ==============
+    Mode   description               velocity
+    ====   =======================   ==============
+    T1     Manual Reduced Velocity   max of 250mm/s
+    T2     Manual High Velocity      as programmed 
+    AUT    Automatic                 as programmed 
+    EXT    Automatic external        as programmed 
+    ====   =======================   ==============
+
 * specification of acceleration
 * Blending
 * Parallel IO operations
