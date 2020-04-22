@@ -30,10 +30,6 @@ Programming is done with move instructions (robot movement types).  (see `manual
 * **J-Joint motion**: basic robot motion with nonlinear toolpath. Tool speed is determined with % of the maximum speed. 
 * **L-Linear motion**: controlled movement of the TCP in a straight line from position A to B.
 
-Waypoints can defined by two kind of 'Termination Point'. (see `manual_slides`_ p. 16):
-* **FINE**: robot reaches the point exactly, stops briefly and moves to the next point.
-* **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point. 
-
 
 
 
@@ -46,7 +42,7 @@ Trajectory parameterization and execution
 -----------------------------------------
 Describe if and how the following aspects are handled:
 
-* Specification of velocity can be done via the following variable
+* Specification of velocity can be done via the following variables:
    * **$SCR.$RUNOVLIM**: controls speed globally in any program
    * **$SCR.$JOGLIM**: max speed for jogging (in % form 250mm/sec)
    * **$SCR.$JOGOVLIM**: 
@@ -57,11 +53,16 @@ Describe if and how the following aspects are handled:
    * **$MCR_GRP.$PROGOVERRIDE**: program-settable override (default to 100) affecting program motion (multiplied with $MCR.$GENOVERRIDE)
 
 
-* Specification of acceleration
-   * bb
+* Specification of acceleration can be done via the following variables:
 
+   * **$USEMAXACCEL**: enables 'fast acceleration' feature
+
+   
 * Blending
-   * bb
+
+   *  Taught positions can either be fly-by points, or stop points
+      * **FINE**: robot reaches the point exactly, stops briefly and moves to the next point.
+      * **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point. 
 
 * Parallel IO operations:
    * bb
