@@ -3,6 +3,7 @@ KUKA
 
 .. _manual_collection: http://cncmanual.com/kuka-robotics/
 .. _manual_slides: http://media.ee.ntu.edu.tw/personal/pcwu/tutorials/kuka_user_manual.pdf
+.. _kuka_introduction: https://www.in.tum.de/fileadmin/w00bws/i23/kuka_sunrise_introduction.pdf
 .. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
 
 * Description: Cartesian trajectories for the Yaskawa Motoman robots
@@ -137,31 +138,50 @@ B	   Y
 C	   X      
 =====  =============
 
-Trajectory parameterization and execution
+
+Trajectory parameterization and execution 
 -----------------------------------------
-Describe if and how the following aspects are handled:
+
+(see `kuka_introduction`_)
 
 * Specification of velocity
+    * Speed of TCP can be set within a move instructions in % by the 'vel' argument.
+    * For Continuous path motions ([LIN], [CIRC]) the velocity is constant from start to end.
+    * Realtive Joint Velocity can be set by: *setJointVelocityRel(0.3)*
     * KUKA operation mode influence velocity
-    
-    ====   =======================   ==============
-    Mode   description               velocity
-    ====   =======================   ==============
-    T1     Manual Reduced Velocity   max of 250mm/s
-    T2     Manual High Velocity      as programmed 
-    AUT    Automatic                 as programmed 
-    EXT    Automatic external        as programmed 
-    ====   =======================   ==============
+      
+      ====   =======================   ==============
+      Mode   description               velocity
+      ====   =======================   ==============
+      T1     Manual Reduced Velocity   max of 250mm/s
+      T2     Manual High Velocity      as programmed 
+      AUT    Automatic                 as programmed 
+      EXT    Automatic external        as programmed 
+      ====   =======================   ==============
 
 * specification of acceleration
+
+    * Relative Joint Acceleration can be set by: *setJointAccelerationRel(0.5)*
+
+
 * Blending
+
+    * Belnding can be done by defining a blend radius 
+        * as a relative value:  *IMotion.setBlendingRel(0.2)*
+        * in millimeters:        *IMotion.setBlendingCart(20)*
+    
 * Parallel IO operations
+
+    * No information found so far
+
 * Online (real-time) trajectory modifications
+
+    * No information found so far
 
 Features required from hardware
 -------------------------------
-* Applicable to KR C2 / KR C3
-* KRC4 controller is a Windows based computer and the teach pendant is a remote desktop of that computer
-* Are there requirements that other vendors' robots might not meet?
+* Applicable to KR C2 / KR C3 / KR C4  / KR 16-2 and probably others
+* Cartesian position and velocity control interfaces on the robots.
+
 
 

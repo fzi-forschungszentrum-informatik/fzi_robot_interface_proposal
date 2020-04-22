@@ -87,10 +87,10 @@ Trajectory parameterization and execution
 
    
 * Parallel IO operations:
-   - No information found so far
+   * No information found so far
 
 * Online (real-time) trajectory modifications:
-   - No information found so far
+   * No information found so far
 
 
 
