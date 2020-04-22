@@ -1,12 +1,14 @@
 Fanuc
 =====
 
-.. _manual_collection: http://cncmanual.com/fanuc/
+.. _manual_collection: http://cncmanual.com/fanuc-robotics/
+.. _roboguide_help: http://cncmanual.com/download/4472/
+.. _reference_manual: http://cncmanual.com/fanuc-robotics-r-30ia-controller-karel-reference-manual/
 .. _manual_slides: http://www.lakos.fs.uni-lj.si/wp-content/uploads/2017/12/Fanuc-robot.pdf
 .. _Karel: https://www.tristarcnc.com/News/KarelProgrammingLanguage
 
 
-* Textual description
+* Description: Cartesian trajectories for Fanuc robots
 * Vendor specifics 
    * Teach pendant: 				FANUC iPendant touch
    * Programming / simulation software: 	ROBOGUIDE 
@@ -21,40 +23,58 @@ Fanuc
 
 
 * Version of the user manual
-* Source (link)
-* etc ...
+* Link to `manual_collection`_
+
 
 Trajectory composition
 ----------------------
 Programming is done with move instructions (robot movement types).  (see `manual_slides`_ p. 15-16):
-* **J-Joint motion**: basic robot motion with nonlinear toolpath. Tool speed is determined with % of the maximum speed. 
-* **L-Linear motion**: controlled movement of the TCP in a straight line from position A to B.
 
+* **JOINT**: basic robot motion with nonlinear toolpath. Tool speed is determined with % of the maximum speed. 
+* **LINEAR**: controlled movement of the TCP in a straight line from position A to B.
+* **CIRCULAR**: The TCP follows a circular arc from the initial position to the destination.
 
 
 
 Waypoint representation
 -----------------------
-How are Cartesian points specified? (e.g. x,y,z, roll pitch, yaw vs quaternions)
+Points are described with position coordinates x,y, z and rotations w, p, r. 
+
+.. code-block:: yaml
+
+  x
+  y
+  z
+  w (x-axis rotation)
+  p (y-axis rotation)
+  r (z-axis rotation)
 
 
 Trajectory parameterization and execution
 -----------------------------------------
-Describe if and how the following aspects are handled:
 
-* Specification of velocity can be done via the following variables:
-   * **$SCR.$RUNOVLIM**: controls speed globally in any program
-   * **$SCR.$JOGLIM**: max speed for jogging (in % form 250mm/sec)
-   * **$SCR.$JOGOVLIM**: 
-   * **$SCR.$SFJOGOVLIM**: safety jog speed limit
-   * **$SCR.$SFRUNOVLIM**: program run override limit
-   * **$SCR.$COLDOVRD**: speed is downscaled when robot is rebooted (default 10% speed)
-   * **$MCR.$GENOVERRIDE**: speed controlled by  +% and -% buttons
-   * **$MCR_GRP.$PROGOVERRIDE**: program-settable override (default to 100) affecting program motion (multiplied with $MCR.$GENOVERRIDE)
+* System variables determine the speed of robot motion (see `reference_manual`_).
+    
+    * Speed overrides: 
+    
+        * *$MCR.$GENOVERRIDE*: general override
+        * *$MCR_GRP.$PROGOVERRIDE*: program override
+        
+    * Manual Motion Speed
+        
+        * Joint Speed (in joint units) equals: $PARAM_GROUP[i].$SPEEDLIMJNT * $MCR[].$GENOVERRIDE / 100  * $SCR_GRP[i].$JOGLIM_JNT / 100
+        * Cartesian Translational Speed (in mm/sec) equals: $PARAM_GROUP[i].SPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIM / 100
+        * Cartesian Rotational Speed (in mm/sec) equals: ($PARAM_GROUP[i].ROTSPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIMROT / 100 
+        
+    * Programmed Motion Speed
+
+
+   
 
 
 * Specification of acceleration can be done via the following variables:
 
+   * acceleration time is fixe and proportional to the programmed speed.
    * **$USEMAXACCEL**: enables 'fast acceleration' feature
 
    
@@ -64,17 +84,18 @@ Describe if and how the following aspects are handled:
       * **FINE**: robot reaches the point exactly, stops briefly and moves to the next point.
       * **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point. 
 
+   
 * Parallel IO operations:
-   * bb
+   - No information found so far
 
 * Online (real-time) trajectory modifications:
-   * bb
+   - No information found so far
 
 
 
 Features required from hardware
 -------------------------------
-* Applicable to which robots of the vendor?
-* Are there requirements that other vendors' robots might not meet?
+* Applicable to robots Fanuc 30i 31i 32i.
+
 
 
