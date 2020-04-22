@@ -1,46 +1,30 @@
 Conclusion / Proposed Interface
 ===============================
-.. @Felix:
-   I would just call this Proposed Interface
-
-.. I personally would write a little more introduction.
-   I think it helps readers to get into the mood. :)
 Cartesian trajectory definitions have long been a complicated topic in ROS.
 The investigated definitions showed that quite some differences exist about
 generality vs expressiveness vs ease of use, not to mention the somewhat
-`orthogonal` industry way of doing things.  In fact, most people will agree
+`orthogonal` industrial way of doing things.  In fact, most people will agree
 that it's probably impossible to cover every detail, to meet all requirements
-and meet all needs of all possible users of such an interface.
+of all possible users of such an interface.
 Nevertheless, with this document having a lot of information in one place, we
 believe that there are sufficient similarities to start a new trial.
 
+If you don't want to read the reasoning, you can jump to the :ref:`proposed interface <Proposed interface>` directly.
+
+Components
+----------
 Here's our proposal for Cartesian Trajectory Definitions.
 We present the new message types step by step and explain our design decisions,
-basing them on conclusions from the previous sections :ref:`Existing`.
-
-
-.. This section wraps up section :ref:`Existing` and contains our proposed interface derived from the information collected in the previous sections.
-
-.. @Felix:
-   Can you forward reference the TLDR; section here?
-   So that readers can easily jup to the end.
-   Alternatively, it maybe makes sense to begin here with the final definition.
-
-
-Conclusion
-----------
-.. @Felix:
-   I would drop this heading.
-   Conclusion and own proposal is too much intertwisted.
+basing them on conclusions from the previous section :ref:`Existing`.
 
 CartesianTrajectoryPoint
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-One common thing in all existing proposal is to have a Cartesian trajectory point definition. This
+One common thing in all existing proposals is a Cartesian trajectory point definition. This
 would be fairly similar to the `trajectory_msgs/JointTrajectoryPoint
 <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_ message. As
 the joint version contains joint efforts, we propose to also include Cartesian wrenches to the
-Cartesian point definition, although this is only proposed in one of the existing interfaces.
+Cartesian point definition, although this is only introduced in one of the existing interfaces.
 
 
 .. code-block:: yaml
@@ -54,23 +38,12 @@ Cartesian point definition, although this is only proposed in one of the existin
 
 
 The definition above doesn't contain any `frame_id` or `timestamp` information raising the need to
-contain this into a parent message containing this.
+contain this into a parent message.
 
 .. code-block:: yaml
    :caption: CartesianPosture.msg
 
    float64[] joint_values
-
-.. @Felix:
-   I would omit this extra message type.
-   I think it does not add too much information and could easily be replaced by
-   the following CartesianTrajectory definition:
-
-.. Header header
-   CartesianTrajectoryPoint[] points
-   string tcp_frame
-   string[] posture_joint_names
-   float64[] posture_joint_values
 
 Postures - to solve joint configuration ambiguities - are defined in a separate message type to
 decouple it from the geometric waypoint definition. When assembling those Cartesian points to a
@@ -82,7 +55,7 @@ of joints similar to the `trajectory_msgs/JointTrajectoryPoint
 `sensor_msgs/JointState <http://docs.ros.org/melodic/api/sensor_msgs/html/msg/JointState.html>`_
 message for posture information. However, in contrast to that we propose to use a plain
 :code:`float64[]` field instead of a full joint state in order to prevent redundant information /
-contain a lot of unused fields. This on the other hand raises the requirement to specify the joint
+containing a lot of unused fields. This on the other hand raises the requirement to specify the joint
 names on a higher level as mentioned above.
 
 It is still open how posture information should be treated. Here, multiple options seem valid at
@@ -114,7 +87,7 @@ At this stage we include a time stamp through the ``header`` message.
 Note that ``header`` also includes a ``frame_id``, which is the assumed reference frame for the data given in ``points``.
 The link that shall follow the trajectory is specified with ``tcp_frame``.
 Some of
-the existing proposals use a ``geometry_msgs/Pose`` field to express the points' reference frame, but we think that using names as identifiers makes this interface more versatile, because it delegates possible lookups to where this information is easier available.
+the existing proposals use a ``geometry_msgs/Pose`` field to express the points' reference frame. However, we think that using names as identifiers makes this interface more versatile, because it delegates possible lookups to where this information is easier available.
 
 CartesianError / CartesianTolerance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,13 +104,6 @@ both for the end effector's linear and angular axes:
    geometry_msgs/Vector3 orientation
    geometry_mgs/Twist velocity
    geometry_mgs/Accel acceleration
-
-.. @Felix:
-   I guess velocity and acceleration refer to maximal allowed values?
-   I mean position and orientation are both tolerable offsets.
-   But what is a velocity/acceleration offset? To what?
-
-.. When using this message as goal_tolerance, what do velocity and acceleration refer to?
 
 CartesianTrajectoryAction
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -178,6 +144,8 @@ propose an action interface for executing Cartesian trajectories.
 For the result and feedback we again are following the methods from joint-based trajectory
 execution. The errors get extended by a posture-related error flag.
 
+
+.. _Proposed interface:
 
 TLDR; Proposed interface
 ------------------------
