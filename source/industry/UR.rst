@@ -23,14 +23,20 @@ Universal Robots (UR)
 
 Trajectory composition
 ----------------------
-List of different motion primitives that users can use to compose/program
-Cartesian trajectories (referring to the manual).
-Explain parameters if necessary.
+Programming is done with move instructions (movement types) that move the robot to specified targets.
 
-* Linear
-* Circular
-* Point 2 Point
-* ...
+* **MoveJ**: tool moves in a curved path. Movements are calculated in the joint space.Each joint reaches location simultaneously.
+
+* **MoveL**: tool moves linearly between waypoints. To keep moving on a straight line each joint performs a more complicated motion. Possible arguments: desired tool speed, tool acceleration, feature.
+
+* **MoveP**: 
+
+
+
+* **MoveL**: Move linearly to a specified target. Possible arguments: target point, speed, coordinate system, duration until point (replaces speed), and others
+
+* **MoveC**: Build circular, open motion arcs, using a via-point and end point. Possible arguments: point on circle, target point, same as **MoveL**
+
 
 Waypoint representation
 -----------------------
@@ -41,7 +47,18 @@ Trajectory parameterization and execution
 Describe if and how the following aspects are handled:
 
 * Specification of velocity
+   * The robot's speed is defined by the move command.
+   * speed related safety-related functions
+   ===========  ===========================     ===========
+   Function     Description                     Limit
+   ===========  ===========================     ===========
+   Joint speed  Max. angular joint speed        30 ◦/s
+   TCP speed    Max. speed of the robot TCP     250 mm/s
+   ===========  ===========================     ===========
+
+   
 * specification of acceleration
+    * The acceleration of the robot's motions is defined by the move command.
 * Blending
 * Parallel IO operations
 * Online (real-time) trajectory modifications
@@ -52,5 +69,19 @@ Features required from hardware
 * Are there requirements that other vendors' robots might not meet?
 
 
+
+
+The Joint Limits subtab consists of joint speed and joint position limits. The
+joint speed limits define the maximum angular velocity of individual joints and
+serve to further limit the speed of the robot arm. The joint position limits define
+the allowed position range of individual joints (in joint space). For further
+details, see 15.10
+
+Maximum Speed This option defines the maximum angular velocity for each
+joint. This is done by tapping the corresponding text field and entering the new
+value. The highest accepted value is listed in the column titled Maximum. None of
+the values can be set below the tolerance value.
+
+range for angular velocity: -363 - 363 im normal mode
 
 
