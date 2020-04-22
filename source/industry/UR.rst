@@ -25,17 +25,10 @@ Trajectory composition
 ----------------------
 Programming is done with move instructions (movement types) that move the robot to specified targets.
 
-* **MoveJ**: tool moves in a curved path. Movements are calculated in the joint space.Each joint reaches location simultaneously.
+* **MoveJ**: tool moves in a curved path. Movements are calculated in the joint space. Each joint reaches location simultaneously. Preferred motion if a high TCP speed is desired. Possible arguments: maximum joint speed and joint acceleration.
+* **MoveL**: tool moves in a straight line. To keep moving linearly between waypoints each joint performs a more complicated motion. Possible arguments: desired tool speed, tool acceleration, feature.
+* **MoveP**: tool moves linearly with constant speed with circular blends. Command can be extendend by a Circle move consisting of two waypoints. Possible arguments: size of blend radius
 
-* **MoveL**: tool moves linearly between waypoints. To keep moving on a straight line each joint performs a more complicated motion. Possible arguments: desired tool speed, tool acceleration, feature.
-
-* **MoveP**: 
-
-
-
-* **MoveL**: Move linearly to a specified target. Possible arguments: target point, speed, coordinate system, duration until point (replaces speed), and others
-
-* **MoveC**: Build circular, open motion arcs, using a via-point and end point. Possible arguments: point on circle, target point, same as **MoveL**
 
 
 Waypoint representation
@@ -47,18 +40,30 @@ Trajectory parameterization and execution
 Describe if and how the following aspects are handled:
 
 * Specification of velocity
-   * The robot's speed is defined by the move command.
-   * speed related safety-related functions
-   ===========  ===========================     ===========
-   Function     Description                     Limit
-   ===========  ===========================     ===========
-   Joint speed  Max. angular joint speed        30 ◦/s
-   TCP speed    Max. speed of the robot TCP     250 mm/s
-   ===========  ===========================     ===========
+
+   * The robot's speed is defined in form of an argument by the move command.
+   
+      * For *MoveJ* in :math:`deg/s`:  **maximum joint speed**
+      * For *MoveL* in :math:`mm/s`:  **desired tool speed**
+      
+   * Global specification of velocity are done via two safety-related functions:
+      
+     ===========  ===========================     ===========
+     Function     Description                     Limit
+     ===========  ===========================     ===========
+     Joint speed  Max. angular joint speed        30 ◦/s
+     TCP speed    Max. speed of the robot TCP     250 mm/s
+     ===========  ===========================     ===========
 
    
 * specification of acceleration
-    * The acceleration of the robot's motions is defined by the move command.
+
+    * The acceleration of the robot's motions is defined in form of an argument by the move command. Depending on the chosen movement type either the joints' or TCP's acceleration is definable.
+
+      * For *MoveJ* in :math:`deg/s^2`:  **joint acceleration**
+      * For *MoveL* in :math:`mm/s^2`:  **tool acceleration**
+
+      
 * Blending
 * Parallel IO operations
 * Online (real-time) trajectory modifications
