@@ -22,7 +22,7 @@ Fanuc
       * FANUC LADDER-III 
 
 
-* Version of the user manual
+* Version of the `reference_manual`_: Applies to Version 7.30
 * Link to `manual_collection`_
 
 
@@ -83,6 +83,7 @@ Trajectory parameterization and execution
    *  Taught positions can either be fly-by points, or stop points
       * **FINE**: robot reaches the point exactly, stops briefly and moves to the next point.
       * **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point. 
+   * The feature **Termination type** can also control blending of robot motion between segments.
 
    
 * Parallel IO operations:
@@ -95,7 +96,7 @@ Trajectory parameterization and execution
 
 Features required from hardware
 -------------------------------
-* Applicable to robots Fanuc 30i 31i 32i.
+* Applicable for controllers labeled R-30iA or R-J3iC
 
 
 
