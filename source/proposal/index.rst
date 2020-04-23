@@ -93,21 +93,26 @@ The link that shall follow the trajectory is specified with ``tcp_frame``.
 Some of
 the existing proposals use a ``geometry_msgs/Pose`` field to express the points' reference frame. However, we think that using names as identifiers makes this interface more versatile, because it delegates possible lookups to where this information is easier available.
 
-CartesianError / CartesianTolerance
+CartesianTolerance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the investigated interfaces tolerances are often proposed as scalar values for each of [position,
-orientation, velocity, angular velocity]. We propose to allow full motion
-constraints on position, velocity and acceleration level, which are specified
-both for the end effector's linear and angular axes:
+orientation, velocity, angular velocity]. In contrast we propose specifying constraints for each
+axis individually by using 3-dimensional datatypes:
 
 .. code-block:: yaml
-   :caption: CartesianError.msg
+   :caption: CartesianTolerance.msg
 
-   geometry_msgs/Vector3 position
-   geometry_msgs/Vector3 orientation
-   geometry_mgs/Twist velocity
-   geometry_mgs/Accel acceleration
+   geometry_msgs/Vector3 position_error
+   geometry_msgs/Vector3 orientation_error
+   geometry_msgs/Twist twist_error
+   geometry_msgs/Accel acceleration_error
+   geometry_msgs/Wrench wrench_error
+
+With this definition users can define tolerances per axis, where rotational constraints are meant to
+be angle differences in the local coordinate system. Therefore we use ``geometry_msgs/Vector3``
+instead of ``geometry_msgs/Pose`` for ``position_error`` and ``orientation_error``.
+
 
 CartesianTrajectoryAction
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,11 +218,12 @@ As elaborated in the previous section we propose the following action interface
        geometry_mgs/Twist twist
        geometry_msgs/Accel acceleration
        geometry_msgs/Wrench wrench
-   CartesianError error
-     geometry_msgs/Vector3 position
-     geometry_msgs/Vector3 orientation
-     geometry_mgs/Twist velocity
-     geometry_mgs/Accel acceleration
+   CartesianTrajectoryPoint error
+       duration time_from_start
+       geometry_mgs/Pose pose
+       geometry_mgs/Twist twist
+       geometry_msgs/Accel acceleration
+       geometry_msgs/Wrench wrench
 
 .. note::
    For readability reasons we left the commonly-used ROS messages collapsed.
