@@ -125,8 +125,8 @@ propose an action interface for executing Cartesian trajectories.
    :caption: FollowCartesianTrajectory.action
 
    CartesianTrajectory trajectory
-   CartesianError path_tolerance
-   CartesianError goal_tolerance
+   CartesianTolerance path_tolerance
+   CartesianTolerance goal_tolerance
    duration goal_time_tolerance
 
    ---
@@ -148,7 +148,7 @@ propose an action interface for executing Cartesian trajectories.
    string tcp_frame
    CartesianTrajectoryPoint desired
    CartesianTrajectoryPoint actual
-   CartesianError error
+   CartesianTolerance error
 
 For the result and feedback we again are following the methods from joint-based trajectory
 execution. The errors get extended by a posture-related error flag.
@@ -177,12 +177,12 @@ As elaborated in the previous section we propose the following action interface
      string[] posture_joint_names
      CartesianPosture[] postures
        float64[] joint_values
-   CartesianError path_tolerance
+   CartesianTolerance path_tolerance
      geometry_msgs/Vector3 position
      geometry_msgs/Vector3 orientation
      geometry_mgs/Twist velocity
      geometry_mgs/Accel acceleration
-   CartesianError goal_tolerance
+   CartesianTolerance goal_tolerance
      geometry_msgs/Vector3 position
      geometry_msgs/Vector3 orientation
      geometry_mgs/Twist velocity
