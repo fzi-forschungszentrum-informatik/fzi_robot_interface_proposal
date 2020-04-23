@@ -1,3 +1,5 @@
+.. _Existing:
+
 Existing Cartesian Interfaces in ROS
 ====================================
 

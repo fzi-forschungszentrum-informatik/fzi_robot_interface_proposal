@@ -1,3 +1,5 @@
+.. _Gijs Vanderhoorn:
+
 Gijs Vanderhoorn
 ================
 
