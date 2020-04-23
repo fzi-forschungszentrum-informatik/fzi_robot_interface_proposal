@@ -31,8 +31,8 @@ Cartesian point definition, although this is only introduced in one of the exist
    :caption: CartesianTrajectoryPoint.msg
 
    duration time_from_start
-   geometry_mgs/Pose pose
-   geometry_mgs/Twist twist
+   geometry_msgs/Pose pose
+   geometry_msgs/Twist twist
    geometry_msgs/Accel acceleration
    geometry_msgs/Wrench wrench
 
@@ -169,8 +169,8 @@ As elaborated in the previous section we propose the following action interface
      Header header
      CartesianTrajectoryPoint[] points
        duration time_from_start
-       geometry_mgs/Pose pose
-       geometry_mgs/Twist twist
+       geometry_msgs/Pose pose
+       geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        geometry_msgs/Wrench wrench
      string tcp_frame
@@ -210,20 +210,20 @@ As elaborated in the previous section we propose the following action interface
    string tcp_frame
    CartesianTrajectoryPoint desired
        duration time_from_start
-       geometry_mgs/Pose pose
-       geometry_mgs/Twist twist
+       geometry_msgs/Pose pose
+       geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint actual
        duration time_from_start
-       geometry_mgs/Pose pose
-       geometry_mgs/Twist twist
+       geometry_msgs/Pose pose
+       geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint error
        duration time_from_start
-       geometry_mgs/Pose pose
-       geometry_mgs/Twist twist
+       geometry_msgs/Pose pose
+       geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        geometry_msgs/Wrench wrench
 
