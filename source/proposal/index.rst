@@ -38,7 +38,8 @@ Cartesian point definition, although this is only introduced in one of the exist
 
 
 The definition above doesn't contain any `frame_id` or `timestamp` information raising the need to
-contain this into a parent message.
+contain this into a parent message. The ``CartesianTrajectoryPoint`` is meant to be a pure geometric
+representation of a setpoint independent of any robot configuration.
 
 .. code-block:: yaml
    :caption: CartesianPosture.msg
@@ -66,6 +67,9 @@ first glance:
   definitions such as a shoulder lift joint or elbow joint value only. However,
   allowing this will require to have the joint names available at this stage,
   as well.
+
+As at the current point we would like to leave the discussion about posture definition quite open,
+we propose to use a separate message for this, although it currently only contains one element.
 
 CartesianTrajectory
 ~~~~~~~~~~~~~~~~~~~
