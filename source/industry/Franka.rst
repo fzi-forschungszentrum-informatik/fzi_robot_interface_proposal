@@ -1,30 +1,58 @@
 Franka Emika
 ============
-* Description:
-* Graphical programming interface:
-* Version of the user manual:
-* Link to manual:
-* etc ...
+* Description: Cartesian trajectories for Franka Panda
+* Graphical programming interface: Franka Desk
+* Vendor specific programming language: C++
+* Version of the user manual: libfranka 0.7.1, User Manual Research (10/2017)
+* Link to manual: https://frankaemika.github.io/libfranka/
 
 Trajectory composition
 ----------------------
-List of different motion primitives that users can use to compose/program
-Cartesian trajectories (referring to the manual).
-Explain parameters if necessary.
+Franka has a dual way of programming its panda robot:
+First, there's the graphical-based programming using a browser interface (Desk) in which
+users compose tasks with different apps. The apps range from simple to complex
+and can be customized and shared with a community. Some apps are payed,
+limiting this overview to the default available functionality.
 
-* ...
+* **Cartesian Motion**: Move linearly along a list of points, allowing to set blending, velocity and acceleration.
+
+* **Relative Motion**: Move relative to the current pose in a direction specified as vector.
+
+* **Line**: Move along a line with specified velocity for a certain duration.  The direction vector is taught with two points.
+
+* **Lissajous Figures**: Realize lissajous figures in a plane. Allows to specify motion and amplitude in both directions.
+
+* **Spiral**: Move in a spiral pattern in a plane. Provides configuration parameters, such as duration, width, etc.
+
+The second way to realize Cartesian trajectories is over the Franka Control
+Interface (FCI) (Research) that provides full control of the robot in form of
+motion executors and controllers.
+
+When using this interfaces, users must implement motion types themselves on top
+of raw target and feedback signals from the robot.
 
 Trajectory parameterization and execution
 -----------------------------------------
-Describe if and how the following aspects are handled:
 * Specification of velocity
-* specification of acceleration
+   - In form of a percentage of the robot's maximal velocity. Is done when
+     configuring instances of motion types
+
+* Specification of acceleration
+   - Also in form of a percentage of the maximal values. Is parameterized
+     during setup of the motion types
+
 * Blending
+   - Can be configured in the **Cartesian Motion** app
+
 * Parallel IO operations
+   - Specific apps trigger operations, such as **Modbus Wait**, **Modbus Out** and **Modbus Pulse**
+
 * Online (real-time) trajectory modifications
+   - Can be achieved implicitly through active impedance control and additional forces set with **Apply Force**
+   - External forces and commanded forces can overlay Cartesian motion types and alter the trajectories
 
 Features required from hardware
 -------------------------------
-* Applicable to which robots of the vendor?
-* Are there requirements that other vendors' robots might not meet?
+* Applicable to Franka Control Interface (FCI)
+* Cartesian impedance control with force-torque measurements
 
