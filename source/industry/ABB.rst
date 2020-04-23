@@ -30,7 +30,7 @@ Individually taught points (type **robtarget**) have the following field represe
   extax
 
 Individual fields
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 * **trans**: x, y, z (position of tcp)
 * **rot**: q1, q2, q3, q4 (orientation in quaternion notation)
 * **robconf**: cf1, cf4, cf6, cfx (axis configuration of the robot for possibly ambiguous axes)
