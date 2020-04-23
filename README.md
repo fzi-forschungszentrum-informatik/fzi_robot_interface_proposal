@@ -1,3 +1,3 @@
 # UR Phase 2
 
-Project management for the second phase of the UR robot driver
+Repository for hosting the Cartesian Interface design document at https://fzi-robot-interface-proposal.readthedocs.io/
