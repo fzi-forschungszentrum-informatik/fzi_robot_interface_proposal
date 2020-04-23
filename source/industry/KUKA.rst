@@ -6,7 +6,7 @@ KUKA
 .. _kuka_introduction: https://www.in.tum.de/fileadmin/w00bws/i23/kuka_sunrise_introduction.pdf
 .. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
 
-* Description: Cartesian trajectories for the Yaskawa Motoman robots
+* Description: Cartesian trajectories for the KUKA robots
 * Vendor specifics 
    * Teach pendant: “KCP” (KUKA Control Panel) or smartPAD
    * Programming / simulation software: OrangeEdit editor / KUKA simulator Sim Pro
