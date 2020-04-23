@@ -178,15 +178,17 @@ As elaborated in the previous section we propose the following action interface
      CartesianPosture[] postures
        float64[] joint_values
    CartesianTolerance path_tolerance
-     geometry_msgs/Vector3 position
-     geometry_msgs/Vector3 orientation
-     geometry_mgs/Twist velocity
-     geometry_mgs/Accel acceleration
+     geometry_msgs/Vector3 position_error
+     geometry_msgs/Vector3 orientation_error
+     geometry_msgs/Twist twist_error
+     geometry_msgs/Accel acceleration_error
+     geometry_msgs/Wrench wrench_error
    CartesianTolerance goal_tolerance
-     geometry_msgs/Vector3 position
-     geometry_msgs/Vector3 orientation
-     geometry_mgs/Twist velocity
-     geometry_mgs/Accel acceleration
+     geometry_msgs/Vector3 position_error
+     geometry_msgs/Vector3 orientation_error
+     geometry_msgs/Twist twist_error
+     geometry_msgs/Accel acceleration_error
+     geometry_msgs/Wrench wrench_error
    duration goal_time_tolerance
 
    ---
