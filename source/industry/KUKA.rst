@@ -3,10 +3,13 @@ KUKA
 
 .. _manual_collection: http://cncmanual.com/kuka-robotics/
 .. _manual_slides: http://media.ee.ntu.edu.tw/personal/pcwu/tutorials/kuka_user_manual.pdf
-.. _kuka_introduction: https://www.in.tum.de/fileadmin/w00bws/i23/kuka_sunrise_introduction.pdf
+.. _KRL_guide: http://robot.zaab.org/wp-content/uploads/2014/04/KRL-Reference-Guide-v4_1.pdf
+.. _Angerer: https://opus.bibliothek.uni-augsburg.de/opus4/frontdoor/deliver/index/docId/3064/file/Dissertation_Angerer.pdf
+.. _Vistein: https://opus.bibliothek.uni-augsburg.de/opus4/frontdoor/deliver/index/docId/3271/file/Vistein_Dissertation.pdf
+.. _RobotSensorInterface: http://supportwop.com/IntegrationRobot/content/6-Syst%C3%A8mes_int%C3%A9grations/RobotSensorInterface/KST_RSI_31_en.pdf
 .. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
 
-* Description: Cartesian trajectories for the KUKA KRL robots
+* Description: Cartesian trajectories for the KUKA robots (KRC/KRL).
 * Vendor specifics 
    * Teach pendant: “KCP” (KUKA Control Panel) or smartPAD
    * Programming / simulation software: OrangeEdit editor / KUKA simulator Sim Pro
@@ -28,7 +31,7 @@ Trajectory composition
 Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23-32).:
 
 * Linear
-   * straight line from the current position to target position
+   * straight line of the tcp from the current position to target position. Interpolation is done in Cartesian space.
    * Message defintion:
 
 	.. code-block:: yaml
@@ -39,7 +42,7 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  LIN End point
 
 * Circular
-   * To define a circle or arc in space unambiguously
+   * To define a circular motion of the TCP in Cartesian space space
    * Message defintion:
 
 	.. code-block:: yaml
@@ -50,8 +53,9 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  CIRC Auxiliary point , Endpoint, CA Angle
 
 * Point 2 Point
+   * joint space movement to a given goal, which can be specified in joint space or in Cartesian space.
    * controller calculates the necessary angle differences for each axis
-   * to increase velocity, points for which exact positioning is not necessary can be approximated
+   * Preferred motion if a high TCP speed is wanted and the interpolation between both waypoints doesn't have to follow a predefined path.
    * Message defintion:
 
 	.. code-block:: yaml
@@ -62,7 +66,6 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  PTP Auxiliary point C_PTP
 	  PTP End point
 
-* Halt
 
 Waypoint representation
 -----------------------
@@ -129,6 +132,15 @@ Waypoint representation
 	    A6 -180
 
 * Angles of rotation of the robot coordinate systems
+* S and T specify a robot's position unambiguously if more than one axis position is possible for
+  the same point in space (because of kinematic singularities). This is often written in integer
+  form, thus the values above.
+
+  * **S (status):** 3-bit binary value describing the robot's configuration with predefined criteria
+
+  * **T (turn):** direction of a turn.
+    6-bit binary value, containing flip bits for each axis (0 when axis >= 0 deg, 1 when axis <  0
+    deg)
 
 =====  =============
 Angle  rotation axis 
@@ -142,7 +154,7 @@ C	   X
 Trajectory parameterization and execution 
 -----------------------------------------
 
-(see `kuka_introduction`_)
+(see `manual_advanced`_)
 
 * Specification of velocity
     * Speed of TCP can be set within a move instructions in % by the 'vel' argument.
@@ -157,6 +169,7 @@ Trajectory parameterization and execution
       T2     Manual High Velocity      as programmed 
       AUT    Automatic                 as programmed 
       EXT    Automatic external        as programmed 
+      CPR    Safe Operation            max of 250mm/s 
       ====   =======================   ==============
 
 * specification of acceleration
@@ -164,9 +177,13 @@ Trajectory parameterization and execution
     * Relative Joint Acceleration can be set by: *setJointAccelerationRel(0.5)*
 
 
-* Blending
+* Blending (source `Angerer`_ and `Vistein`_)
+    * Blending is enabled by the *advance run mechanism* enabling planning the next motion while executing a motion.
+    * To activate blending a motion needs to be marked as blendable by adding a keyword to the motion instruction. `C PTP`for PTP motions and `C_DIS`, `C_VEL` or `C_ORI` for motions in operation space.
 
-    * Belnding can be done by defining a blend radius 
+
+    * Blending between all motion types is supported. It is even possible to blend a PTP (joint space) into a LIN (Cartesian space) and vice versa.
+    * Blending can be done by defining a blend radius 
         * as a relative value:  *IMotion.setBlendingRel(0.2)*
         * in millimeters:        *IMotion.setBlendingCart(20)*
     
@@ -176,11 +193,19 @@ Trajectory parameterization and execution
 
 * Online (real-time) trajectory modifications
 
-    * No information found so far
+    * Robot Sensor Interface (RSI)  (see `RobotSensorInterface`_)
+        * supported since KRC-4 controller
+        * influence the position of the robot by external sensors.
+        * robot position can be influenced by external sensors through overlaying a programmed motion with external control, like position correction from a sensor-based system
+        * default 4 ms cycle time for accepting set point, hence external controller requires hard real-time
+        * usually correction data is provided in relative values and applied directly to the running program. However, as absolute values are possible, the robot can be controlled externally while a KRL  program only providing a fixed start position runs in the background.
+        * communication between KUKA and external controller via UDP/IP on a dedicated network segment
+        * *RSI context* is a library with RSI objects for configuration of the signal flow
+        * *RSI monitor* offers online a visualization of the RSI signals.
 
 Features required from hardware
 -------------------------------
-* Applicable to KR C2 / KR C3 / KR C4  / KR 16-2 and probably others
+* Applicable to KR C2 / KR C3 / KR C4 and probably others
 * Cartesian position and velocity control interfaces on the robots.
 
 
