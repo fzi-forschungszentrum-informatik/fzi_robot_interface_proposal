@@ -68,8 +68,8 @@ Trajectory parameterization and execution
 
     * The acceleration of the robot's motions is defined in form of an argument by the move command. Depending on the chosen movement type either the joints' or TCP's acceleration is definable.
 
-      * For *MoveJ* in :math:`deg/s^2`:  **joint acceleration**
-      * For *MoveL* in :math:`mm/s^2`:  **tool acceleration**
+      * For *MoveJ* in deg/s\ :sup:`2`\:  **joint acceleration**
+      * For *MoveL* in mm/s\ :sup:`2`\:  **tool acceleration**
 
       
 * Blending
