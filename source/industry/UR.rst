@@ -1,33 +1,56 @@
+.. _conveyor_tracking: https://www.universal-robots.com/articles/ur-articles/conveyor-tracking-guide/
+.. _dynamic_force_control: https://www.universal-robots.com/articles/ur-articles/urscript-dynamic-force-control/
+
+
 Universal Robots (UR)
 =====================
 * Description: Cartesian trajectories for Universal Robots (CB3 / e-Series)
 * Vendor specifics 
    * Programming / simulation software:     UR+ / URcaps
    * User interface: 			            PolyScope
-   * Programming language: 		            UR Script language (based on Python)
+   * Programming language: 		            UR Script language (similar to Python)
 
 * Version of the user manual:
-   * UR5e: 5.0.2
-   * UR10e: 5.0.2
-   * UR5: 3.4.5
-   * UR10:  3.1.0
-* Link to manual:
-   * e-Series
-      * https://s3-eu-west-1.amazonaws.com/ur-support-site/40974/UR5e_User_Manual_en_US.pdf
-      * https://s3-eu-west-1.amazonaws.com/ur-support-site/41240/UR10e_User_Manual_en_US.pdf
-   * CB3
-      * https://courses.ideate.cmu.edu/60-428/s2018/wp-content/uploads/2017/12/UR5_User_Manual_en_US-3.4.5.pdf
-      * https://automationdistribution.com/content/Universal-Robots-UR10-User-Manual.pdf
-
+   * user manual UR10e: Version 5.8
+   * script manual: Version 5.8
+* Link to manuals:
+   * https://www.universal-robots.com/download/?option=69270
 
 Trajectory composition
 ----------------------
 Programming is done with move instructions (movement types) that move the robot to specified targets.
 
-* **MoveJ**: tool moves in a curved path. Movements are calculated in the joint space. Each joint reaches location simultaneously. Preferred motion if a high TCP speed is desired. Possible arguments: maximum joint speed and joint acceleration.
-* **MoveL**: tool moves in a straight line. To keep moving linearly between waypoints each joint performs a more complicated motion. Possible arguments: desired tool speed, tool acceleration, feature.
-* **MoveP**: tool moves linearly with constant speed with circular blends. Command can be extendend by a Circle move consisting of two waypoints. Possible arguments: size of blend radius
+* **MoveJ**: tool moves in a curved path interpolated in joint space. Each joint reaches location simultaneously. Preferred motion if a high TCP speed is desired. 
+   * Parameters (q, a=1.4, v=1.05, t=0, r=0):
+      * q: joint positions
+      * a: joint acceleration of leading axis in rad/s\ :sup:`2`
+      * v: joint speed of leading axisin rad/s
+      * t: time in s
+      * r: blend radius in m
 
+* **MoveL**: tool moves in a straight line. To keep moving linearly between waypoints each joint performs a more complicated motion. 
+   * Parameters (pose, a=1.2, v=0.25, t=0, r=0):
+      * pose: target pose
+      * a: tool acceleration in m/s\ :sup:`2`
+      * v: tool speed in m/s
+      * t: time in s
+      * r: blend radius in m
+
+* **MoveP**: tool moves linearly with constant speed with circular blends. Command can be extendend by a Circle move consisting of two waypoints. 
+   * Parameters (pose, a=1.2, v=0.25, r=0):
+      * pose: target pose
+      * a: tool acceleration in m/s\ :sup:`2`
+      * v: tool speed in m/s
+      * r: blend radius in m
+
+* **MoveC**: tool moves on a circular arc segment to from current pose to target pose. Path point `pose_via` defines the arch's shape
+   * Parameters (pose_via, pose_to, a=1.2, v=0.25, r=0, mode=0):
+      * pose_via: path point
+      * pose_to: target pose
+      * a: tool acceleration in m/s\ :sup:`2`
+      * v: tool speed in m/s
+      * r: blend radius (of target pose) in m
+      * mode: (0: Unconstrained / 1: Fixed mode)
 
 
 Waypoint representation
@@ -75,7 +98,7 @@ Trajectory parameterization and execution
 * Blending
 
     * Circular blending is part of **MoveP**. The blend radius' size is by default a shared value between all the waypoints. A smaller blend radius leads to sharper and a biger radius to smoother paths.
-    * Belnding can also be done by defining a blend radius for way points. In this case the trajectory blends around the waypoint, allowing the robot arm not to stop at the point.
+    * Blending can also be done by defining a blend radius for waypoints. In this case the trajectory blends around the waypoint, allowing the robot arm not to stop at the point.
 
 
 * Parallel IO operations
@@ -83,7 +106,23 @@ Trajectory parameterization and execution
 
  
 * Online (real-time) trajectory modifications
-    * realized by Real-Time Data Exchange (RTDE) interface
+    * path offset
+        * a  robot motion can be superimposed with a Cartesian offset
+        * Cartesian path offset is specified by the script function `path_offset_set(offset, type)`
+            * offset: Pose specifying the translational and rotational offset
+            * type: Specifies which coordinates to apply (`BASE`,`TCP`, `MOTION`, `BASE_INVERTED`)
+        * possible applications:
+            * imposing a weaving motion onto a welding task
+            * compensating for moving the robot base while following a trajectory
+            
+    * dynamic force control (see `dynamic_force_control`_)
+        * provides control of the force parameters dynamically at runtime 
+        * function to set robot to force mode: `force_mode(task_frame, selection_vector, wrench, type, limits)`
+        
+    * conveyor tracking (see `conveyor_tracking`_)
+        * adjusts a robot's trajectory to a moving conveyor
+        * available for linear and circular conveyors
+        * CB3 and e-Series controller can decode signals at up to 40kHz
 
     
 Features required from hardware
@@ -91,34 +130,11 @@ Features required from hardware
 * Applicable to robots 
     
     * CB3 (UR3, UR5, UR10)
-    * e-Series (UR3e, UR5e, UR10e)
+    * e-Series (UR3e, UR5e, UR10e, UR16e)
     
 * Are there requirements that other vendors' robots might not meet?
     
     * Cartesian position and velocity control interfaces on the robots.
     * Built-in, tool-centric force/torque sensor (e-Series)
-
-
-
-
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
