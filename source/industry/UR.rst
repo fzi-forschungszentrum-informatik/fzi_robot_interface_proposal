@@ -51,8 +51,8 @@ Trajectory parameterization and execution
 
    * The robot's speed is defined in form of an argument by the move command.
    
-      * For *MoveJ* in :math:`deg/s`:  **maximum joint speed**
-      * For *MoveL* in :math:`mm/s`:  **desired tool speed**
+      * For *MoveJ* in deg/s:  **maximum joint speed**
+      * For *MoveL* in mm/s:  **desired tool speed**
       
    * Global specification of velocity are done via two safety-related functions:
       
