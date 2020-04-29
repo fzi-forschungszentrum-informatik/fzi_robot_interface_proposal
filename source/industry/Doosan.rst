@@ -6,21 +6,52 @@ Doosan
 * Version of the user manual: Programming Guide Manual Version 1.6
 * Link to manual: Available after free registration: https://robotlab.doosanrobotics.com/en/Join/normalSignUp
 
+Doosan robots support a ROS interface.
+The source code is available here: https://github.com/doosan-robotics/doosan-robot
+
+The packages wrap many of the DRL functionalities with ROS services.
+The manual is available here: http://wiki.ros.org/doosan-robotics?action=AttachFile&do=get&target=Doosan_Robotics_ROS_Manual_ver0.971_20200218A%28EN.%29.pdf
+
 Trajectory composition
 ----------------------
 The teaching of waypoints is done either in jog-operation or hand-guiding operation.
 Doosan programming features a combination of basic instructions with a skill-based task composition.
 
 
-* **movel**: Move linearly to a specified target. Possible arguments: point, velocity, acceleration, time, blending radius, and others
+* **movel**: Move tool linearly to a specified target. Possible arguments: point, velocity, acceleration, time, blending radius, and others
 
-* **movec**: Move in an arc via a point to a target point. Possible arguments: point, point, same as **movel**
+* **movec**: Move in an arc via a point to a target point. Possible arguments:
+  point, point, velocity, acceleration, time, blending radius, and others
 
 * **movesx**: Move along a spline curve from the current point to the target via waypoints. Possible arguments: List of points, velocity, acceleration, time, and others.
+
+* **moveb**: Move along a list of path segments (lines, circles) with constant
+  velocity. Segments are blended. Possible arguments: list of points, velocity,
+  acceleration, time, and others.
+
+* **movej**: Move to the specified joint position. Possible arguments: target
+  joint angles, velocity, acceleration, time, and others. Note that this command uses the different target type **posj**.
+
+* **movejx**: Move to the specified point with joint interpolation. Similar to
+  **movel**, but without the guarantee of a linear motion result in Cartesian
+  space. Possible arguments: point, velocity, acceleration, time, radius for
+  blending, and others. Additionally, users specify the solution space with a
+  three-bit flag, representing shoulder (lefty vs righty), elbow (below vs
+  above) and wrist (flip vs no flip).
+
+* **movesj**: Move along a spline curve path with joint interpolation,
+  connecting various joint-based waypoints. Possible arguments: list of joint
+  positions, velocity, acceleration, time, and others.
 
 * **move_spiral**: Motion along a spiral trajectory on a plane, which is perpendicular to a specified axis. Possible arguments: Revolutions, final spiral radius, and others
 
 * **move_periodic**: Sine-based motion per axis. Possible arguments: Amplitude, period, and others
+
+All move commands have an asynchronous variant, e.g. **amovel** corresponds to
+**movel**, that allows the user to run other commands in parallel, i.e. the
+main thread continues executing instructions. The blending parameter is not
+available for these asynchronous move commands. Triggering concurrent motion
+commands is caught with errors.
 
 Waypoint representation
 -----------------------
@@ -63,6 +94,7 @@ Trajectory parameterization and execution
 
 * Parallel IO operations
    - I/O operations are managed independently of trajectory execution
+   - Users can trigger them e.g. with the asynchronous move instructions for individual segments.
 
 * Online (real-time) trajectory modifications
    - Supports compliant trajectory execution, in which preference is given to
