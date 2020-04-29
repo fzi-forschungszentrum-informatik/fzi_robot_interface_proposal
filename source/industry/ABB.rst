@@ -16,7 +16,10 @@ to specified targets.
 
 * **MoveC**: Build circular, open motion arcs, using a via-point and end point. Possible arguments: point on circle, target point, same as **MoveL**
 
-* There doesn't seem to be a spline interpolation
+* **MoveJ**: Move the robot to specified points using joint interpolation. All
+  joints will reach their destination at the same time. Possible arguments:
+  target point, speed, zone, tool, and others. The tool center point is the
+  point moved to the destination.
 
 Waypoint representation
 -----------------------
@@ -33,7 +36,22 @@ Individual fields
 ~~~~~~~~~~~~~~~~~
 * **trans**: x, y, z (position of tcp)
 * **rot**: q1, q2, q3, q4 (orientation in quaternion notation)
-* **robconf**: cf1, cf4, cf6, cfx (axis configuration of the robot for possibly ambiguous axes)
+* **robconf**: cf1, cf4, cf6, cfx (axis configuration of the robot for possibly
+  ambiguous axes). Each field is an integer and indicates the *configuration
+  quadrant* for the numbered axis and is counted in positive or negative
+  quarter revolutions of 90° starting from zero:
+
+   .. code-block:: yaml
+   
+     ...
+     -3 = axis is in (-270°, -180°)
+     -2 = axis is in (-180°, -90°)
+     -1 = axis is in (-90°, -0°)
+      0 = axis is in (+0°, +90°)
+      1 = axis is in (+90°, +180°)
+      2 = axis is in (+180°, +270°)
+     ...
+
 * **extax**: [eax_a, eax_b, eax_c, eax_d, eax_e, eax_f] (list of up to six external hardware axes)
 
 Different coordinate systems for point representations are possible, such as
@@ -59,9 +77,12 @@ Trajectory parameterization and execution
 
 * Blending
    - Taught positions can either be fly-by points, or stop points
-   - Corner paths are automatically generated for **MoveL** and fly-by points
-   - Handled with zone data to realize corner paths (parabolas)
-   - Zones can be parameterized, allowing to independently start tool re-orientation and TCP corner paths
+   - During **MoveL**, fly-by points are automatically blended, leading to
+     adjusted *corner paths* (parabolas). Stop points are exactly passed.
+   - The blending configuration is handled with *zone data* that specifies how corner paths are realized.
+   - A parameterization of different zones allows to design corner paths in
+     which tool orientation and Cartesian position can be started and stopped
+     Individually.
 
 * Parallel IO operations:
    - **MoveLDO**: Move linearly and trigger an I/O operation at the target's middle corner path
