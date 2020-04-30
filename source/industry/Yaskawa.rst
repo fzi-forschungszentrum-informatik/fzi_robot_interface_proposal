@@ -26,6 +26,7 @@ Teaching trajectories is done on the basis of a point-2-point approach with diff
 * **MOVC** for circles (builds circles with three points for each arc)
 * **MOVS** for spline motion (does parabolic interpolation between three points)
 * **IMOV** for incremental linear motion, starting from a point
+* **MOVJ** for joint-interpolated motion to the point
 
 There are also application specific routines that help in the process of trajectory programming while teaching points.
 These routines may include additional sensors, such as force-torque sensors for approaching surfaces or contour following.
@@ -65,7 +66,7 @@ Trajectory parameterization and execution
      points, with PL from 0 = no bending radius to 8 = max. bending radius
 
 * Parallel IO operations:
-   - Can be triggered independently of the point-wise trajectory
+   - Due to synchronous execution, users apply IO operations immediately before/after move instructions.
 
 * Online (real-time) trajectory modifications:
    - No information found so far
