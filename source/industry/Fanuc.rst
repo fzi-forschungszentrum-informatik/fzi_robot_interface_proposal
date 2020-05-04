@@ -7,34 +7,43 @@ Fanuc
 .. _manual_slides: http://www.lakos.fs.uni-lj.si/wp-content/uploads/2017/12/Fanuc-robot.pdf
 .. _Karel: https://www.tristarcnc.com/News/KarelProgrammingLanguage
 
+Cartesian trajectories for Fanuc robots
 
-* Description: Cartesian trajectories for Fanuc robots
-* Vendor specifics
-   * Teach pendant: 				FANUC iPendant touch
-   * Programming / simulation software: 	ROBOGUIDE
-   * User interface: 				Fanuc iHMI (Intelligent Human Machine Interface)
-   * Programming language:
-      * FANUC `Karel`_ (derived from Pascal)
-      * FANUC’s TP
-   * unsorted
-      * FANUC Dynamic Path Modifier (DPM)
-      * FOCAS
-      * FANUC LADDER-III
+  =================================   =======================================
+  Teach pendant                       FANUC iPendant touch
+  Programming / simulation software   ROBOGUIDE
+  Software                            
+  User interface                      Fanuc iHMI (Intelligent Human Machine Interface)
+  Programming language                FANUC `Karel`_ (derived from Pascal)
+  Relevant hardware                   R-30iA or R-J3iC (controller)
+  =================================   =======================================
+  
+  
 
+**Further reading**
 
-* Version of the `reference_manual`_: Applies to Version 7.30
-* Link to `manual_collection`_
+   * `manual_collection`_
+   * `manual_slides`_
+   * `roboguide_help`_
+   * `reference_manual`_
+   * `Karel`_
 
+   
 
 Trajectory composition
 ----------------------
 Programming is done with move instructions (robot movement types).  (see `manual_slides`_ p. 15-16):
 
-* **JOINT**: basic robot motion with nonlinear toolpath. Tool speed is determined with % of the maximum speed.
-* **LINEAR**: controlled movement of the TCP in a straight line from position A to B.
-* **CIRCULAR**: The TCP follows a circular arc from the initial position to the destination.
+* Linear Cartesian motions
+   **LINEAR**: controlled movement of the TCP in a straight line from position A to B
 
+* Circular motions
+   **CIRCULAR**: The TCP follows a circular arc from the initial position to the destination
+   
+* Joint space interpolation
+   **JOINT**: basic robot motion with nonlinear toolpath. Tool speed is determined with % of the maximum speed.
 
+   
 
 Waypoint representation
 -----------------------
@@ -53,57 +62,60 @@ Points are described with position coordinates x,y, z and rotations w, p, r.
 Trajectory parameterization and execution
 -----------------------------------------
 
-* System variables determine the speed of robot motion (see `reference_manual`_).
+(see `reference_manual`_)
 
-    * Speed overrides:
+Specification of velocity
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        * `$MCR.$GENOVERRIDE`: general override
-        * `$MCR_GRP.$PROGOVERRIDE`: program override
+System variables determine the speed of robot motion 
 
-    * Manual Motion Speed
+* Speed overrides:
 
-        * Joint Speed (in joint units) equals: `$PARAM_GROUP[i].$SPEEDLIMJNT` * `$MCR[].$GENOVERRIDE` / 100  * `$SCR_GRP[i].$JOGLIM_JNT` / 100
-        * Cartesian Translational Speed (in mm/sec) equals: $PARAM_GROUP[i].SPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIM / 100
-        * Cartesian Rotational Speed (in mm/sec) equals: ($PARAM_GROUP[i].ROTSPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIMROT / 100
+    * `$MCR.$GENOVERRIDE`: general override
+    * `$MCR_GRP.$PROGOVERRIDE`: program override
 
-    * Programmed Motion Speed
+* Manual Motion Speed
 
+    * Joint Speed (in joint units) equals: `$PARAM_GROUP[i].$SPEEDLIMJNT` * `$MCR[].$GENOVERRIDE` / 100  * `$SCR_GRP[i].$JOGLIM_JNT` / 100
+    * Cartesian Translational Speed (in mm/sec) equals: $PARAM_GROUP[i].SPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIM / 100
+    * Cartesian Rotational Speed (in mm/sec) equals: ($PARAM_GROUP[i].ROTSPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIMROT / 100
 
-
-
-
-* Specification of acceleration can be done via the following variables:
-
-   * acceleration time is fixe and proportional to the programmed speed.
-   * **$USEMAXACCEL**: enables 'fast acceleration' feature
+* Programmed Motion Speed
 
 
-* Blending
+specification of acceleration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   *  Taught positions can either be fly-by points, or stop points
-   	* **FINE**: motion stops robot arm briefly at each way point
-        * **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point.
+Specification of acceleration can be done via the following variables:
 
-
-* Parallel IO operations:
-   * No information found so far
-
-* Online (real-time) trajectory modifications:
-   * Dynamic Path Modifier (DPM)
-        * dynamic path modification using sensor data, so robot's path can be adapted in real-time
-    	* an external sensor provides postion and orientation offset for the next destination
-    	* applicable to multiple groups
-    	* possible applications: 
-    		* Weave operations
-    		* Stationary tracking
-    		* Orientation control
+* acceleration time is fixe and proportional to the programmed speed.
+* **$USEMAXACCEL**: enables 'fast acceleration' feature
 
 
+Blending
+~~~~~~~~
+
+Taught positions can either be fly-by points, or stop points:
+
+* **FINE**: motion stops robot arm briefly at each way point
+* **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point.
 
 
-Features required from hardware
--------------------------------
-* Applicable for controllers labeled R-30iA or R-J3iC
+Parallel IO operations
+~~~~~~~~~~~~~~~~~~~~~~
 
+No information found so far
 
+Online (real-time) trajectory modifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Dynamic Path Modifier (DPM)
+
+* dynamic path modification using sensor data, so robot's path can be adapted in real-time
+* an external sensor provides postion and orientation offset for the next destination
+* applicable to multiple groups
+* possible applications:
+
+    * Weave operations
+    * Stationary tracking
+    * Orientation control
