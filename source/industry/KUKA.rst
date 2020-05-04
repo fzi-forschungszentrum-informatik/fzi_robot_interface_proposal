@@ -9,17 +9,21 @@ KUKA
 .. _RobotSensorInterface: http://supportwop.com/IntegrationRobot/content/6-Syst%C3%A8mes_int%C3%A9grations/RobotSensorInterface/KST_RSI_31_en.pdf
 .. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
 
-* Description: Cartesian trajectories for the KUKA robots (KRC/KRL).
-* Vendor specifics 
-   * Teach pendant: “KCP” (KUKA Control Panel) or smartPAD
-   * Programming / simulation software: OrangeEdit editor / KUKA simulator Sim Pro
-   * Software: KUKA System Software (KSS)
-   * User interface: KUKA smartHMI (smart Human-Machine Interface)
-   * Programming language: 
-      * KRL (KUKA Robot Language)
-      * exception is LBR iiwa (programmed in Java)
-* Version of the user manual:
-* Link to manuals:
+Cartesian trajectories for the KUKA robots (KRC/KRL).
+
+.. table:: Vendor specifics
+
+  =================================   =======================================
+  Teach pendant                       “KCP” (KUKA Control Panel) or smartPAD
+  Programming / simulation software   OrangeEdit editor / KUKA simulator Sim Pro
+  Software                            KUKA System Software (KSS)
+  User interface                      KUKA smartHMI (smart Human-Machine Interface)
+  Programming language                KRL (KUKA Robot Language)
+  Relevant hardware                   KR C2 / KR C3 / KR C4 and probably others
+  =================================   =======================================
+
+**Further reading**
+
    * `manual_collection`_
    * `manual_slides`_
    * `manual_advanced`_
@@ -30,9 +34,8 @@ Trajectory composition
 ----------------------
 Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23-32).:
 
-* Linear
-   * straight line of the tcp from the current position to target position. Interpolation is done in Cartesian space.
-   * Message defintion:
+* Linear Cartesian motions
+   **LIN**
 
 	.. code-block:: yaml
 
@@ -41,9 +44,8 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  PTP Start point
 	  LIN End point
 
-* Circular
-   * To define a circular motion of the TCP in Cartesian space space
-   * Message defintion:
+* Circular motions
+   **CIRC**
 
 	.. code-block:: yaml
 
@@ -52,11 +54,12 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  PTP Start point
 	  CIRC Auxiliary point , Endpoint, CA Angle
 
-* Point 2 Point
+* Joint space interpolation
+   **PTP**
+
    * joint space movement to a given goal, which can be specified in joint space or in Cartesian space.
    * controller calculates the necessary angle differences for each axis
    * Preferred motion if a high TCP speed is wanted and the interpolation between both waypoints doesn't have to follow a predefined path.
-   * Message defintion:
 
 	.. code-block:: yaml
 
@@ -67,9 +70,11 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  PTP End point
 
 
+
 Waypoint representation
 -----------------------
 * Motion Types
+
    * Linear
 
 	.. code-block:: yaml
@@ -156,7 +161,9 @@ Trajectory parameterization and execution
 
 (see `manual_advanced`_)
 
-* Specification of velocity
+Specification of velocity
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
     * Speed of TCP can be set within a move instructions in % by the 'vel' argument.
     * For Continuous path motions ([LIN], [CIRC]) the velocity is constant from start to end.
     * Realtive Joint Velocity can be set by: *setJointVelocityRel(0.3)*
@@ -172,41 +179,41 @@ Trajectory parameterization and execution
       CPR    Safe Operation            max of 250mm/s 
       ====   =======================   ==============
 
-* specification of acceleration
+specification of acceleration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    * Relative Joint Acceleration can be set by: *setJointAccelerationRel(0.5)*
 
+Relative Joint Acceleration can be set by: *setJointAccelerationRel(0.5)*
 
-* Blending (source `Angerer`_ and `Vistein`_)
+Blending
+~~~~~~~~
+
+(source `Angerer`_ and `Vistein`)
+
     * Blending is enabled by the *advance run mechanism* enabling planning the next motion while executing a motion.
     * To activate blending a motion needs to be marked as blendable by adding a keyword to the motion instruction. `C PTP`for PTP motions and `C_DIS`, `C_VEL` or `C_ORI` for motions in operation space.
-
-
     * Blending between all motion types is supported. It is even possible to blend a PTP (joint space) into a LIN (Cartesian space) and vice versa.
     * Blending can be done by defining a blend radius 
+
         * as a relative value:  *IMotion.setBlendingRel(0.2)*
         * in millimeters:        *IMotion.setBlendingCart(20)*
-    
-* Parallel IO operations
 
-    * No information found so far
+Parallel IO operations
+~~~~~~~~~~~~~~~~~~~~~~
 
-* Online (real-time) trajectory modifications
+No information found so far
 
-    * Robot Sensor Interface (RSI)  (see `RobotSensorInterface`_)
-        * supported since KRC-4 controller
-        * influence the position of the robot by external sensors.
-        * robot position can be influenced by external sensors through overlaying a programmed motion with external control, like position correction from a sensor-based system
-        * default 4 ms cycle time for accepting set point, hence external controller requires hard real-time
-        * usually correction data is provided in relative values and applied directly to the running program. However, as absolute values are possible, the robot can be controlled externally while a KRL  program only providing a fixed start position runs in the background.
-        * communication between KUKA and external controller via UDP/IP on a dedicated network segment
-        * *RSI context* is a library with RSI objects for configuration of the signal flow
-        * *RSI monitor* offers online a visualization of the RSI signals.
+Online (real-time) trajectory modifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Features required from hardware
--------------------------------
-* Applicable to KR C2 / KR C3 / KR C4 and probably others
-* Cartesian position and velocity control interfaces on the robots.
+Robot Sensor Interface (RSI)  (see `RobotSensorInterface`_)
 
-
+  * supported since KRC-4 controller
+  * influence the position of the robot by external sensors.
+  * robot position can be influenced by external sensors through overlaying a programmed motion with external control, like position correction from a sensor-based system
+  * default 4 ms cycle time for accepting set point, hence external controller requires hard real-time
+  * usually correction data is provided in relative values and applied directly to the running program. However, as absolute values are possible, the robot can be controlled externally while a KRL  program only providing a fixed start position runs in the background.
+  * communication between KUKA and external controller via UDP/IP on a dedicated network segment
+  * *RSI context* is a library with RSI objects for configuration of the signal flow
+  * *RSI monitor* offers online a visualization of the RSI signals.
 
