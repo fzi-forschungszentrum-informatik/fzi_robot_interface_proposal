@@ -1,25 +1,47 @@
 ABB
 ===
-* Description: Cartesian trajectories for ABB robots (IRC5 controllers)
-* Graphical programming interface: FlexPendant, RobotStudio
-* Vendor specific programming language: RAPID
-* Enhancements for FlexPendant: FlexPendant SDK, Microsoft CE + Visual Studio
-* Version of the user manual: Technical reference manual (3HAC 16581-1)
-* Link to manual: https://library.e.abb.com/public/688894b98123f87bc1257cc50044e809/Technical%20reference%20manual_RAPID_3HAC16581-1_revJ_en.pdf
+
+.. _manual_rapid: https://library.e.abb.com/public/688894b98123f87bc1257cc50044e809/Technical%20reference%20manual_RAPID_3HAC16581-1_revJ_en.pdf
+
+Cartesian trajectories for ABB robots (IRC5 controllers)
+
+.. table:: Vendor specifics
+
+  =================================   =======================================
+  Teach pendant                       FlexPendant
+  Programming / simulation software   RobotStudio
+  Software                            FlexPendant SDK, Microsoft CE + Visual Studio
+  Programming language                RAPID
+  Relevant hardware                   Robots of the IRC5 controller
+  =================================   =======================================
+
+**Further reading**
+  * `manual_rapid`_
 
 Trajectory composition
 ----------------------
 Programming is done with move instructions (motion types) that move the robot
 to specified targets.
 
-* **MoveL**: Move linearly to a specified target. Possible arguments: target point, speed, coordinate system, duration until point (replaces speed), and others
+* Linear Cartesian motions
+   **MoveL**
+   
+   * Move linearly to a specified target.
+   * Possible arguments: target point, speed, coordinate system, duration until point (replaces speed), and others
 
-* **MoveC**: Build circular, open motion arcs, using a via-point and end point. Possible arguments: point on circle, target point, same as **MoveL**
+* Circular motions
+   **MoveC**
+   
+   * Build circular, open motion arcs, using a via-point and end point.
+   * Possible arguments: point on circle, target point, coordinate systems, duration, and others
 
-* **MoveJ**: Move the robot to specified points using joint interpolation. All
-  joints will reach their destination at the same time. Possible arguments:
-  target point, speed, zone, tool, and others. The tool center point is the
-  point moved to the destination.
+* Joint space interpolation
+   **MoveJ**
+   
+   * Move the robot to specified points using joint interpolation. All joints
+     will reach their destination at the same time.
+   * Possible arguments: Target point, speed, zone, tool, and others. The tool
+     center point is the point moved to the destination.
 
 Waypoint representation
 -----------------------
@@ -37,7 +59,7 @@ Individual fields
 * **trans**: x, y, z (position of tcp)
 * **rot**: q1, q2, q3, q4 (orientation in quaternion notation)
 * **robconf**: cf1, cf4, cf6, cfx (axis configuration of the robot for possibly
-  ambiguous axes). Each field is an integer and indicates the *configuration
+  ambiguous axes). Each field (integer) indicates the *configuration
   quadrant* for the numbered axis and is counted in positive or negative
   quarter revolutions of 90° starting from zero:
 
@@ -60,7 +82,10 @@ world or various object coordinate systems.
 
 Trajectory parameterization and execution
 -----------------------------------------
-* Specification of velocity
+
+Specification of velocity
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
    - In form of a speed argument to move instructions during teaching of fly-by points. The
      speed is valid until the next point
    - Path segment specific with **VelSet** (overrides global velocity settings
@@ -68,14 +93,18 @@ Trajectory parameterization and execution
      velocity or can be set to become the new max velocity.
    - Global adjustments with **motsetdata**, affects all points
 
-* Specification of acceleration
-   - path segment specific accelerations with **AccSet** (overrides global
+Specification of acceleration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   - Path segment specific accelerations with **AccSet** (overrides global
      acceleration until reset). Provokes slower acceleration and deceleration
      (percentage) of the global settings.
    - Global adjustments with **motsetdata**, affects all points. This also includes
      adjustment of ramping accelerations etc.
 
-* Blending
+Blending
+~~~~~~~~
+
    - Taught positions can either be fly-by points, or stop points
    - During **MoveL**, fly-by points are automatically blended, leading to
      adjusted *corner paths* (parabolas). Stop points are exactly passed.
@@ -84,16 +113,14 @@ Trajectory parameterization and execution
      which tool orientation and Cartesian position can be started and stopped
      Individually.
 
-* Parallel IO operations:
+Parallel IO operations
+~~~~~~~~~~~~~~~~~~~~~~
+
    - **MoveLDO**: Move linearly and trigger an I/O operation at the target's middle corner path
    - **MoveCDO**: Move in a circle and trigger an I/O operation at the target's middle corner path
 
-* Online (real-time) trajectory modifications:
+Online (real-time) trajectory modifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
    - Offsets to paths can be realized with **CorrWrite** and special correction
      generators. No information on real-time capability found.
-
-Features required from hardware
--------------------------------
-* Applicable to robots with the IRC5 controller
-* Cartesian position and velocity control interfaces on the robots.
-
