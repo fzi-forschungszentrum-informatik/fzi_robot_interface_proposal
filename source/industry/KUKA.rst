@@ -8,6 +8,8 @@ KUKA
 .. _Vistein: https://opus.bibliothek.uni-augsburg.de/opus4/frontdoor/deliver/index/docId/3271/file/Vistein_Dissertation.pdf
 .. _RobotSensorInterface: http://supportwop.com/IntegrationRobot/content/6-Syst%C3%A8mes_int%C3%A9grations/RobotSensorInterface/KST_RSI_31_en.pdf
 .. _manual_advanced: http://www.wtech.com.tw/public/download/manual/kuka/krc2ed05/Operating%20and%20Programming.pdf
+.. _kuka_system_software: http://www.wtech.com.tw/public/download/manual/kuka/krc4/KUKA%20KSS-8.3-Programming-Manual-for-SI.pdf
+.. _Cooper: https://www.aimspress.com/fileOther/PDF/ElectrEng/ElectronEng-03-03-274.pdf
 
 Cartesian trajectories for the KUKA robots (KRC/KRL).
 
@@ -23,7 +25,6 @@ Cartesian trajectories for the KUKA robots (KRC/KRL).
   =================================   =======================================
 
 **Further reading**
-
    * `manual_collection`_
    * `manual_slides`_
    * `manual_advanced`_
@@ -69,11 +70,26 @@ Cartesian trajectories can be composed in three ways (see `manual_slides`_ p. 23
 	  PTP Auxiliary point C_PTP
 	  PTP End point
 
+* Additional
+   **SLIN**
+
+   * The *Spline Linear* motion uses splines between linear motions
+
+   **SCIRC**
+
+   * The *Spline Circular* motion uses splines between circular motions
+
+   **SPTP**
+
+   * The *Spline Point to Point* motion is similar to PTP but it allows continuous spline motions.
+	
+
 
 
 Waypoint representation
 -----------------------
-* Motion Types
+
+(see `kuka_system_software`_ and `manual_slides`_)
 
    * Linear
 
@@ -135,6 +151,21 @@ Waypoint representation
 	    A4 90
 	    A5 0
 	    A6 -180
+
+   * Spline
+
+	.. code-block:: yaml
+
+	  [SPLINE]
+	  SPL 
+	    X 102
+	    Y 1
+	  SPL 
+	    X 104
+	    Y 0
+	  SPL 
+	    X 204
+	    Y 0
 
 * Angles of rotation of the robot coordinate systems
 * S and T specify a robot's position unambiguously if more than one axis position is possible for
