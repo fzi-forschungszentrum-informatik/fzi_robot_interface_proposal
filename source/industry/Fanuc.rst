@@ -98,7 +98,8 @@ Blending
 Taught positions can either be fly-by points, or stop points:
 
 * **FINE**: motion stops robot arm briefly at each way point
-* **CNT**: robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point.
+* **CNT** (continuous): robot approaches to the point with a distance specified by the CNT value without ever actually reaching the point, so the robots arm moves in a continuous trajectory
+* **CR** (corner radius): like CNT, but specifying a radius for corner rounding allows to precisely define the shape of the blended motion
 
 
 Parallel IO operations
@@ -119,3 +120,13 @@ Dynamic Path Modifier (DPM)
     * Weave operations
     * Stationary tracking
     * Orientation control
+    
+J519  (Stream Motion)     
+    * external protocol for:
+        * path trajectory planning
+        * near-real time streaming of the path trajectory to the robot 
+        * enabling highly flexible and dynamic applications
+    
+R912 (Remote Motion Interface)       
+    * drip-feed for TP programs
+    
