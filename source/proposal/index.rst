@@ -1,3 +1,5 @@
+.. _Conclusion and Proposed Interface:
+
 Proposed Interface
 ==================
 
