@@ -88,3 +88,23 @@ for the developed interface
   additional error sources such as an IK solver not finding a solution are relevant and should
   therefore be included into the trajectory actio definition. This has to be further investigated.
 
+
+Project limitations
+-------------------
+
+While this document proposes an interface for executing Cartesian trajectories there are a couple of
+aspects not being discussed inside this design document:
+
+* **Trajectory-IO synchronization**
+
+  While being mentioned earlier IO synchronization is not exeplicitly covered inside this document.
+  As written, the interface should be designed in a way that it could easily be extended with such a
+  feature, though.
+
+* **Actual trajectory execution / interpolation**
+
+  There are multiple steps involved between a Cartesian trajectory interface and actual motion
+  execution. There are different strategies that can be implemented, where selection of such a
+  strategy highly depends on the actual use case. This will not be part of this interface
+  definition.
+
