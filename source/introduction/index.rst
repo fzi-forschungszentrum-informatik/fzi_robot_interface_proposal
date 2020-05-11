@@ -13,6 +13,22 @@ Robots robotic arms. Expected outcome of this project is to provide a Cartesian 
 `control_msgs/FollowJointTrajectory.action
 <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 
+Current ROS-based approaches either do an inverse
+kinematics step and then plan and execute motions in joint space (e.g. `MoveIt!
+<https://moveit.ros.org/>`_, `Descartes <http://wiki.ros.org/descartes>`_) or translate interpolated
+Cartesian motions to joint commands while executing them (e.g. `cartesian_controllers
+<https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers>`_).
+
+While these approaches work fine for many applications there are also many applications, especially
+in the industrial context such as welding or gluing applications where users define a tool path in
+Cartesian space that should be followed precisely.
+
+As most robot vendors offer programming interfaces to define robot motions in Cartesian space it
+does make sense to also support using these interfaces from ROS instead of always taking the detour
+of joint-based control. Cartesian control introduces additional constraints such as ambiguities in
+joint space at one specific Cartesian pose which have to be covered by a trajectory inteface, as
+well.
+
 Contents of this document
 -------------------------
 
@@ -36,18 +52,28 @@ on something or even write a Pull Request with a suggestion.
 Requirements
 ------------
 
-The following requirements are defined for the developed interface
+From the motivation above and the shown possible use cases the following requirements are defined
+for the developed interface
 
-Similar to control_msgs/FollowJointTrajectory.action
-  The interface should be similar in use to the standardized joint trajectory interface. Therefore,
-  not only a trajectory representation shall be developed, but also an action interface around it.
+* **Similar to control_msgs/FollowJointTrajectory.action**
 
-Include posture definitions
-  When defining Cartesian poses there might be ambiguities in joint space for that pose. There
-  should be a methodology included that helps resolving these ambiguities.
+  With this proposal we aim to offer Cartesian trajectory execution in terms of trajectories
+  consisting of multiple waypoints where motion between waypoints is interpolated in Cartesian
+  space. This interface should be similar in use to the standardized joint trajectory interface.
+  Therefore, not only a trajectory representation shall be developed, but also an action interface
+  around it.
 
-Composable structure
-  The action should be composed of multiple message types. This way, it could be easily extended
+* **Include posture definitions**
+
+  As mentioned above, when defining Cartesian poses there might be ambiguities in joint space for
+  that pose. There should be a methodology included that helps resolving these ambiguities. This
+  gives users the possibility to get a repeatable robot motion.
+
+* **Composable structure**
+
+  Many use cases require tool activation / modification during trajectory execution, for example
+  activating adhesive extrusion or a welding tip. With this in mind, the proposed trajectory
+  interface should be extendible to introduce different aspects of trajectory execution
   such as adding IO commands to the trajectory. Example:
 
   .. code-block:: yaml
@@ -56,7 +82,9 @@ Composable structure
     TrajectoryPoint[] points
     IOCommand[] io_commands
 
-Transparent error codes
-  The action result should cover additional cases relevant only for Cartesian executions such as an
-  IK solver not finding a solution. This has to be further investigated.
+* **Transparent error codes**
+
+  When trajectory execution fails users should know the reason for that. With Cartesian motions
+  additional error sources such as an IK solver not finding a solution are relevant and should
+  therefore be included into the trajectory actio definition. This has to be further investigated.
 
