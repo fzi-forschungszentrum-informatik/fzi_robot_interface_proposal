@@ -13,21 +13,20 @@ Robots robotic arms. Expected outcome of this project is to provide a Cartesian 
 `control_msgs/FollowJointTrajectory.action
 <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 
-Current ROS-based approaches either do an inverse
-kinematics step and then plan and execute motions in joint space (e.g. `MoveIt!
-<https://moveit.ros.org/>`_, `Descartes <http://wiki.ros.org/descartes>`_) or translate interpolated
-Cartesian motions to joint commands while executing them (e.g. `cartesian_controllers
+Current ROS-based approaches often use motion planing to interpolate between individual Cartesian poses
+(e.g. `MoveIt!
+<https://moveit.ros.org/>`_, `Descartes <http://wiki.ros.org/descartes>`_) or implement Cartesian pose tracking for dynamic targets
+(e.g. `cartesian_controllers
 <https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers>`_).
 
-While these approaches work fine for many applications there are also many applications, especially
-in the industrial context such as welding or gluing applications where users define a tool path in
+While these approaches work fine for many applications, there are also use cases that need a Cartesian trajectory approach. Especially
+in the industrial context, such as for welding or gluing applications, users classically define a tool path in
 Cartesian space that should be followed precisely.
 
 As most robot vendors offer programming interfaces to define robot motions in Cartesian space it
-does make sense to also support using these interfaces from ROS instead of always taking the detour
-of joint-based control. Cartesian control introduces additional constraints such as ambiguities in
-joint space at one specific Cartesian pose which have to be covered by a trajectory inteface, as
-well.
+does make sense to also support these interfaces from ROS instead of always taking the detour
+of joint-based control. Cartesian control on the other hand introduces additional aspects that need consideration, such as resolving ambiguities in
+joint space that arise for obtaining identical Cartesian poses. A Cartesian trajectory interface needs to cover this as well.
 
 Contents of this document
 -------------------------
@@ -42,7 +41,7 @@ Contribution
 ------------
 
 We would like to generate an interface suitable for
-as many people, as possible. Therefore, any input is welcome. This project is hosted at `FZI's
+as many people as possible. Therefore, any input is highly welcome! This project is hosted at `FZI's
 github orgnanization <https://github.com/fzi-forschungszentrum-informatik/fzi_robot_interface_proposal>`_
 
 
@@ -58,7 +57,7 @@ for the developed interface
 * **Similar to control_msgs/FollowJointTrajectory.action**
 
   With this proposal we aim to offer Cartesian trajectory execution in terms of trajectories
-  consisting of multiple waypoints where motion between waypoints is interpolated in Cartesian
+  consisting of multiple waypoints, where motion between waypoints is interpolated in Cartesian
   space. This interface should be similar in use to the standardized joint trajectory interface.
   Therefore, not only a trajectory representation shall be developed, but also an action interface
   around it.
@@ -67,12 +66,12 @@ for the developed interface
 
   As mentioned above, when defining Cartesian poses there might be ambiguities in joint space for
   that pose. There should be a methodology included that helps resolving these ambiguities. This
-  gives users the possibility to get a repeatable robot motion.
+  gives users control over repeatable robot motion.
 
 * **Composable structure**
 
   Many use cases require tool activation / modification during trajectory execution, for example
-  activating adhesive extrusion or a welding tip. With this in mind, the proposed trajectory
+  activating adhesive extrusion or a welding torch. With this in mind, the proposed trajectory
   interface should be extendible to introduce different aspects of trajectory execution
   such as adding IO commands to the trajectory. Example:
 
@@ -86,7 +85,7 @@ for the developed interface
 
   When trajectory execution fails users should know the reason for that. With Cartesian motions
   additional error sources such as an IK solver not finding a solution are relevant and should
-  therefore be included into the trajectory actio definition. This has to be further investigated.
+  therefore be included into the trajectory action definition. This has to be further investigated.
 
 
 Project limitations
@@ -97,7 +96,7 @@ aspects not being discussed inside this design document:
 
 * **Trajectory-IO synchronization**
 
-  While being mentioned earlier IO synchronization is not exeplicitly covered inside this document.
+  While being mentioned earlier IO synchronization is not explicitly covered inside this document.
   As written, the interface should be designed in a way that it could easily be extended with such a
   feature, though.
 
