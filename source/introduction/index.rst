@@ -107,3 +107,17 @@ aspects not being discussed inside this design document:
   strategy highly depends on the actual use case. This will not be part of this interface
   definition.
 
+* **Trajectory planning (interface)**
+
+  As stated above, this proposal's intention is to create a Cartesian counterpart of
+  `trajectory_msgs/JointTrajectoryPoint
+  <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_,
+  `trajectory_msgs/JointTrajectory
+  <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectory.html>`_ and
+  `control_msgs/FollowJointTrajectory.action
+  <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
+
+  Therefore, planning and parameterizing trajectories as for example MoveIt!'s
+  `computeCartesianPath()
+  <http://docs.ros.org/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html#afd29c4dc55b10564102cf393cd38c71d>`_
+  function are out of this project's scope.
