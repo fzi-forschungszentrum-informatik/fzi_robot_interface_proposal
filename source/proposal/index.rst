@@ -52,7 +52,7 @@ trajectory additional posture information should be given.
 The user has to make sure that the number of entries given in the ``posture`` array match the number
 of joints similar to the `trajectory_msgs/JointTrajectoryPoint
 <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_ message.
-:ref:`Gijs Vanderhoorn` proposed to use a
+:ref:`Gijs van der Hoorn` proposed to use a
 `sensor_msgs/JointState <http://docs.ros.org/melodic/api/sensor_msgs/html/msg/JointState.html>`_
 message for posture information. However, in contrast to that we propose to use a plain
 :code:`float64[]` field instead of a full joint state in order to prevent redundant information /
