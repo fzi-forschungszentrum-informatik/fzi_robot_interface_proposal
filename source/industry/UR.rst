@@ -107,7 +107,7 @@ The robot's speed is defined in form of an argument by the move command.
     * For *MoveJ* in deg/s:  **maximum joint speed**
     * For *MoveL* in mm/s:  **desired tool speed**
       
-Global specification of velocity are done via two safety-related functions:
+Global specification of velocity are done sparately for joint and TCP speed. The limits, which depend on the robot version, are stated in the table below. The actual speed limits also depend on the robot configuration.
       
      ===========  ===========================     ===========
      Function     Description                     Limit
