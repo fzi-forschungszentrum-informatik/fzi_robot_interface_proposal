@@ -113,7 +113,7 @@ Global specification of velocity are done via two safety-related functions:
      Function     Description                     Limit
      ===========  ===========================     ===========
      Joint speed  Max. angular joint speed        30 ◦/s
-     TCP speed    Max. speed of the robot TCP     250 mm/s
+     TCP speed    Max. speed of the robot TCP     5000 mm/s
      ===========  ===========================     ===========
 
    
