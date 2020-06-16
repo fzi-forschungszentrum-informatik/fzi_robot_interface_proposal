@@ -67,20 +67,7 @@ Trajectory parameterization and execution
 Specification of velocity
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-System variables determine the speed of robot motion 
-
-* Speed overrides:
-
-    * `$MCR.$GENOVERRIDE`: general override
-    * `$MCR_GRP.$PROGOVERRIDE`: program override
-
-* Manual Motion Speed
-
-    * Joint Speed (in joint units) equals: `$PARAM_GROUP[i].$SPEEDLIMJNT` * `$MCR[].$GENOVERRIDE` / 100  * `$SCR_GRP[i].$JOGLIM_JNT` / 100
-    * Cartesian Translational Speed (in mm/sec) equals: $PARAM_GROUP[i].SPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIM / 100
-    * Cartesian Rotational Speed (in mm/sec) equals: ($PARAM_GROUP[i].ROTSPEEDLIM * $MCR[].$GENOVERRIDE / 100 * $SCR_GRP[i].$JOGLIMROT / 100
-
-* Programmed Motion Speed
+As motions are initiated and controlled in TP the user can only adapt the robot's motion speed with TP. System configurations and overrides influence the velocity additionally.
 
 
 specification of acceleration
