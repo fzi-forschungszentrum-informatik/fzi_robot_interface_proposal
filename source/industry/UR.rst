@@ -112,10 +112,12 @@ Global specification of velocity are done separately for joint and TCP speed. Th
      ===========  ===========================     ===========
      Function     Description                     Limit
      ===========  ===========================     ===========
-     Joint speed  Max. angular joint speed        30 ◦/s
+     Joint speed  Max. angular joint speed        180 ◦/s [1]_
      TCP speed    Max. speed of the robot TCP     5000 mm/s
      ===========  ===========================     ===========
 
+.. [1] Wrist joints of UR3 have max. angular speed of 360°/s and shoulder joints of UR10 have max
+   angular speed of 120 °/s.
    
 Specification of acceleration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
