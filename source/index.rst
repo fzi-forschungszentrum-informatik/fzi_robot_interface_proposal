@@ -11,15 +11,7 @@ Cartesian Interface in ROS
    industry/index.rst
    proposal/index.rst
 
+ToDos
+-----
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-* ToDos:
-
-  .. todolist::
-
+.. todolist::

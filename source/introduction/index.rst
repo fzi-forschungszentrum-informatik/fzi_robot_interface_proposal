@@ -13,6 +13,21 @@ Robots robotic arms. Expected outcome of this project is to provide a Cartesian 
 `control_msgs/FollowJointTrajectory.action
 <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
 
+Current ROS-based approaches often use motion planing to interpolate between individual Cartesian poses
+(e.g. `MoveIt!
+<https://moveit.ros.org/>`_, `Descartes <http://wiki.ros.org/descartes>`_) or implement Cartesian pose tracking for dynamic targets
+(e.g. `cartesian_controllers
+<https://github.com/fzi-forschungszentrum-informatik/cartesian_controllers>`_).
+
+While these approaches work fine for many applications, there are also use cases that need a Cartesian trajectory approach. Especially
+in the industrial context, such as for welding or gluing applications, users classically define a tool path in
+Cartesian space that should be followed precisely.
+
+As most robot vendors offer programming interfaces to define robot motions in Cartesian space it
+does make sense to also support these interfaces from ROS instead of always taking the detour
+of joint-based control. Cartesian control on the other hand introduces additional aspects that need consideration, such as resolving ambiguities in
+joint space that arise for obtaining identical Cartesian poses. A Cartesian trajectory interface needs to cover this as well.
+
 Contents of this document
 -------------------------
 
@@ -26,7 +41,7 @@ Contribution
 ------------
 
 We would like to generate an interface suitable for
-as many people, as possible. Therefore, any input is welcome. This project is hosted at `FZI's
+as many people as possible. Therefore, any input is highly welcome! This project is hosted at `FZI's
 github orgnanization <https://github.com/fzi-forschungszentrum-informatik/fzi_robot_interface_proposal>`_
 
 
@@ -36,18 +51,28 @@ on something or even write a Pull Request with a suggestion.
 Requirements
 ------------
 
-The following requirements are defined for the developed interface
+From the motivation above and the shown possible use cases the following requirements are defined
+for the developed interface
 
-Similar to control_msgs/FollowJointTrajectory.action
-  The interface should be similar in use to the standardized joint trajectory interface. Therefore,
-  not only a trajectory representation shall be developed, but also an action interface around it.
+* **Similar to control_msgs/FollowJointTrajectory.action**
 
-Include posture definitions
-  When defining Cartesian poses there might be ambiguities in joint space for that pose. There
-  should be a methodology included that helps resolving these ambiguities.
+  With this proposal we aim to offer Cartesian trajectory execution in terms of trajectories
+  consisting of multiple waypoints, where motion between waypoints is interpolated in Cartesian
+  space. This interface should be similar in use to the standardized joint trajectory interface.
+  Therefore, not only a trajectory representation shall be developed, but also an action interface
+  around it.
 
-Composable structure
-  The action should be composed of multiple message types. This way, it could be easily extended
+* **Include posture definitions**
+
+  As mentioned above, when defining Cartesian poses there might be ambiguities in joint space for
+  that pose. There should be a methodology included that helps resolving these ambiguities. This
+  gives users control over repeatable robot motion.
+
+* **Composable structure**
+
+  Many use cases require tool activation / modification during trajectory execution, for example
+  activating adhesive extrusion or a welding torch. With this in mind, the proposed trajectory
+  interface should be extendible to introduce different aspects of trajectory execution
   such as adding IO commands to the trajectory. Example:
 
   .. code-block:: yaml
@@ -56,7 +81,43 @@ Composable structure
     TrajectoryPoint[] points
     IOCommand[] io_commands
 
-Transparent error codes
-  The action result should cover additional cases relevant only for Cartesian executions such as an
-  IK solver not finding a solution. This has to be further investigated.
+* **Transparent error codes**
 
+  When trajectory execution fails users should know the reason for that. With Cartesian motions
+  additional error sources such as an IK solver not finding a solution are relevant and should
+  therefore be included into the trajectory action definition. This has to be further investigated.
+
+
+Project limitations
+-------------------
+
+While this document proposes an interface for executing Cartesian trajectories there are a couple of
+aspects not being discussed inside this design document:
+
+* **Trajectory-IO synchronization**
+
+  While being mentioned earlier IO synchronization is not explicitly covered inside this document.
+  As written, the interface should be designed in a way that it could easily be extended with such a
+  feature, though.
+
+* **Actual trajectory execution / interpolation**
+
+  There are multiple steps involved between a Cartesian trajectory interface and actual motion
+  execution. There are different strategies that can be implemented, where selection of such a
+  strategy highly depends on the actual use case. This will not be part of this interface
+  definition.
+
+* **Trajectory planning (interface)**
+
+  As stated above, this proposal's intention is to create a Cartesian counterpart of
+  `trajectory_msgs/JointTrajectoryPoint
+  <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_,
+  `trajectory_msgs/JointTrajectory
+  <http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectory.html>`_ and
+  `control_msgs/FollowJointTrajectory.action
+  <http://docs.ros.org/api/control_msgs/html/action/FollowJointTrajectory.html>`_.
+
+  Therefore, planning and parameterizing trajectories as for example MoveIt!'s
+  `computeCartesianPath()
+  <http://docs.ros.org/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroupInterface.html#afd29c4dc55b10564102cf393cd38c71d>`_
+  function are out of this project's scope.
