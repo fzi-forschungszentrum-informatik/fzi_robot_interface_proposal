@@ -1,3 +1,5 @@
+.. _Conclusion and Proposed Interface:
+
 Conclusion / Proposed Interface
 ===============================
 Cartesian trajectory definitions have long been a complicated topic in ROS.
