@@ -108,7 +108,12 @@ Should postures be made a member of ``CartesianTrajectoryPoint``?
   representation of a setpoint independent of any robot configuration. This way, a sequence of
   ``CartesianTrajectoryPoint`` objects could be reused and applied to different robot kinematics and / or
   use-cases. Posture definition should be a part of the trajectory execution but not the trajectory
-  definition.
+  definition. However, as raised in `#5 (comment)
+  <https://github.com/fzi-forschungszentrum-informatik/fzi_robot_interface_proposal/issues/5#issuecomment-666235226>`_,
+  we should not mix up tool paths and robot trajectories. As this proposal is about robot
+  trajectories, ``CartesianTrajectoryPoint`` instances should be treated as trajectory setpoints,
+  not tool paths and therefor it makes sense to incorporate the posture definition into the
+  setpoint.
 * If posture is not included into the ``CartesianTrajectoryPoint`` structure, there has to be a way
   of matching posture definitions to trajectory setpoints. For this, either a unique identifier for
   each waypoint would be needed or users would have to provide a posture definition for each
