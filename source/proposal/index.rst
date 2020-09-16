@@ -178,11 +178,11 @@ trajectory object consisting of multiple trajectory points.
    # header.frame_id is the frame in which all data from CartesianTrajectoryPoint[] is given
    Header header
    CartesianTrajectoryPoint[] points
-   string tcp_frame
+   string controlled_frame
 
 At this stage we include a time stamp through the ``header`` message.
 Note that ``header`` also includes a ``frame_id``, which is the assumed reference frame for the data given in ``points``.
-The link that shall follow the trajectory is specified with ``tcp_frame``.
+The link that shall follow the trajectory is specified with ``controlled_frame``.
 Some of
 the existing proposals use a ``geometry_msgs/Pose`` field to express the points' reference frame. However, we think that using names as identifiers makes this interface more versatile, because it delegates possible lookups to where this information is easier available.
 
@@ -238,7 +238,7 @@ propose an action interface for executing Cartesian trajectories.
    ---
 
    Header header
-   string tcp_frame
+   string controlled_frame
    CartesianTrajectoryPoint desired
    CartesianTrajectoryPoint actual
    CartesianTolerance error
@@ -270,7 +270,7 @@ As elaborated in the previous section we propose the following action interface
        CartesianPosture posture
          string [] posture_joint_names
          float64[] posture_joint_values
-     string tcp_frame
+     string controlled_frame
    CartesianTolerance path_tolerance
      geometry_msgs/Vector3 position_error
      geometry_msgs/Vector3 orientation_error
@@ -301,7 +301,7 @@ As elaborated in the previous section we propose the following action interface
    ---
 
    Header header
-   string tcp_frame
+   string controlled_frame
    CartesianTrajectoryPoint desired
        duration time_from_start
        geometry_msgs/Pose pose
