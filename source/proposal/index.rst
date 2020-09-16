@@ -24,9 +24,7 @@ CartesianTrajectoryPoint
 
 One common thing in all existing proposals is a Cartesian trajectory point definition. This
 would be fairly similar to the `trajectory_msgs/JointTrajectoryPoint
-<http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_ message. As
-the joint version contains joint efforts, we propose to also include Cartesian wrenches to the
-Cartesian point definition, although this is only introduced in one of the existing interfaces.
+<http://docs.ros.org/melodic/api/trajectory_msgs/html/msg/JointTrajectoryPoint.html>`_ message.
 
 A jerk is added to the trajectory point definition, as well, so controllers executing a Cartesian
 trajectory can provide a smoother trajectory execution. As there is currently no message available
@@ -43,7 +41,6 @@ which would be the preferable solution.
    geometry_msgs/Twist twist
    geometry_msgs/Accel acceleration
    <to_be_determined_msgs>/Jerk jerk
-   geometry_msgs/Wrench wrench
 
 
 The definition above doesn't contain any `frame_id` or `timestamp` information raising the need to
@@ -200,7 +197,6 @@ axis individually by using 3-dimensional datatypes:
    geometry_msgs/Vector3 orientation_error
    geometry_msgs/Twist twist_error
    geometry_msgs/Accel acceleration_error
-   geometry_msgs/Wrench wrench_error
 
 With this definition users can define tolerances per axis, where rotational constraints are meant to
 be angle differences in the local coordinate system. Therefore we use ``geometry_msgs/Vector3``
@@ -266,7 +262,6 @@ As elaborated in the previous section we propose the following action interface
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        <to_be_determined_msgs>/Jerk jerk
-       geometry_msgs/Wrench wrench
        CartesianPosture posture
          string [] posture_joint_names
          float64[] posture_joint_values
@@ -276,13 +271,11 @@ As elaborated in the previous section we propose the following action interface
      geometry_msgs/Vector3 orientation_error
      geometry_msgs/Twist twist_error
      geometry_msgs/Accel acceleration_error
-     geometry_msgs/Wrench wrench_error
    CartesianTolerance goal_tolerance
      geometry_msgs/Vector3 position_error
      geometry_msgs/Vector3 orientation_error
      geometry_msgs/Twist twist_error
      geometry_msgs/Accel acceleration_error
-     geometry_msgs/Wrench wrench_error
    duration goal_time_tolerance
 
    ---
@@ -308,21 +301,18 @@ As elaborated in the previous section we propose the following action interface
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        <to_be_determined_msgs>/Jerk jerk
-       geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint actual
        duration time_from_start
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        <to_be_determined_msgs>/Jerk jerk
-       geometry_msgs/Wrench wrench
    CartesianTrajectoryPoint error
        duration time_from_start
        geometry_msgs/Pose pose
        geometry_msgs/Twist twist
        geometry_msgs/Accel acceleration
        <to_be_determined_msgs>/Jerk jerk
-       geometry_msgs/Wrench wrench
 
 .. note::
    For readability reasons we left the commonly-used ROS messages collapsed.
