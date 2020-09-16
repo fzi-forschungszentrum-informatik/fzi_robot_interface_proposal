@@ -18,3 +18,4 @@ Existing Cartesian Interfaces in ROS
    07_johnmichaloski.rst
    08_FZI.rst
    09_vanderhoorn.rst
+   10_intera.rst
