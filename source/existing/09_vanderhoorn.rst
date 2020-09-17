@@ -1,7 +1,7 @@
-.. _Gijs Vanderhoorn:
+.. _Gijs van der Hoorn:
 
-Gijs Vanderhoorn
-================
+Gijs van der Hoorn
+==================
 
 https://github.com/gavanderhoorn/common_msgs/pull/1/files
 

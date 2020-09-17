@@ -8,6 +8,7 @@ Cartesian Interface in ROS
 
    introduction/index.rst
    existing/index.rst
+   industry/index.rst
    proposal/index.rst
 
 ToDos
