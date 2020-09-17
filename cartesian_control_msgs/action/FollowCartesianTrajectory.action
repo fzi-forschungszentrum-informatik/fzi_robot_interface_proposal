@@ -22,4 +22,4 @@ Header header
 string tcp_frame
 CartesianTrajectoryPoint desired
 CartesianTrajectoryPoint actual
-CartesianTolerance error
+CartesianTrajectoryPoint error
